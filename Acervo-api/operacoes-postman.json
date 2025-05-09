@@ -1,0 +1,755 @@
+{
+	"info": {
+		"_postman_id": "2b70e4b6-2c05-4199-abcf-c1165d38ab8f",
+		"name": "ACERVO - API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34675566"
+	},
+	"item": [
+		{
+			"name": "Autores",
+			"item": [
+				{
+					"name": "Salvar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Maria\",\r\n    \"dataNascimento\": \"1998-01-01\",\r\n    \"nacionalidade\": \"Brasileira\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/autores",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"autores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/autores/018f07a8-3e65-48bb-9241-f99d5535e5f3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"autores",
+								"018f07a8-3e65-48bb-9241-f99d5535e5f3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtrar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/autores?nacionalidade=Chinês",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"autores"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "Maria",
+									"disabled": true
+								},
+								{
+									"key": "nacionalidade",
+									"value": "Chinês"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/autores/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"autores",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "b838e407-c656-450b-be99-979a0c532076"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Maria\",\r\n    \"dataNascimento\": \"1998-01-01\",\r\n    \"nacionalidade\": \"Chinês\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/autores/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"autores",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a316d9ef-d356-4ba5-ae57-bbac24ad1939"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Livros",
+			"item": [
+				{
+					"name": "Salvar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isbn\": \"9781234567897\",\r\n    \"titulo\": \"SLA OQ\",\r\n    \"dataPublicacao\": \"2020-01-01\",\r\n    \"genero\": \"FICCAO\",\r\n    \"preco\": 20,\r\n    \"idAutor\": \"018f07a8-3e65-48bb-9241-f99d5535e5f3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/livros",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"livros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isbn\": \"978-0-596-52068-7\",\r\n    \"titulo\": \"SLA OQ MANO\",\r\n    \"dataPublicacao\": \"1980-01-01\",\r\n    \"genero\": \"FICCAO\",\r\n    \"preco\": 20,\r\n    \"idAutor\": \"018f07a8-3e65-48bb-9241-f99d5535e5f3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/livros/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"livros",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "054f9978-6e40-4238-b5ee-0b7116f49cdd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Detalhes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/livros/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"livros",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "054f9978-6e40-4238-b5ee-0b7116f49cdd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/livros/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"livros",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c7daf873-dd8a-40e4-ad6e-9f8778cdd24d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pesquisa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/livros?nomeAutor=ED&pagina=0&tamanhoPagina=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"livros"
+							],
+							"query": [
+								{
+									"key": "isbn",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "titulo",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "nomeAutor",
+									"value": "ED"
+								},
+								{
+									"key": "genero",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "dataPublicacao",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "pagina",
+									"value": "0"
+								},
+								{
+									"key": "tamanhoPagina",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Salvar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"cliente\",\r\n    \"senha\": \"cliente123\",\r\n    \"email\": \"cliente@gmail.com\",\r\n    \"roles\": [\r\n        \"CLIENTE\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Salvar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": \"meu-client\",\r\n    \"clientSecret\": \"client-secret\",\r\n    \"redirectURI\": \"http://localhost:8080/authorized\",\r\n    \"scope\": \"CLIENTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/clients",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OAuth2",
+			"item": [
+				{
+					"name": "Client Credentials - postman",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "CLIENTE",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{baseURL}}/oauth2/token",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "client-secret",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "meu-client",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Client Credentials - manual",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic bWV1LWNsaWVudDpjbGllbnQtc2VjcmV0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "CLIENTE",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/oauth2/token",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authorization Code - Postman",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{baseURL}}/oauth2/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{baseURL}}/oauth2/authorize",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{baseURL}}/authorized",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Authorization Code - Manual",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW4xMjM=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "ZlbOGSXZQfoIUzRUmHvzGRxAy_u-ET8PO0mLt2scw55RrE-XVIWPipTYNo_N_gf2lr2IAIX7SezwwEuIQMscB4nZVvAJr7h4SJn6oZn4mOFaReTUTHD9WkuIHrDAeZnP",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{baseURL}}/authorized",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/oauth2/token",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "client-secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "meu-client",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "Q4-JCLfRs4X452SgWaQ4nYnmrvC8vjujlSgnQhghX6NYGGofSsUOTzJDlcwwv9ExoABjGoh6XahpwOiQKAZMHgrrCSzSzA7wHA_FWoILEkhXAoL0ZcpXJGcovL1sSRE2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/oauth2/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resource Server Test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJraWQiOiIzZmFjYmJkMS1hNWQyLTQ1MzAtOTE1Ni01MWRlMDQxZWRkNWYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJnZXJlbnRlIiwiYXVkIjoibWV1LWNsaWVudCIsIm5iZiI6MTc0Mzc5Mjk0NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiZXhwIjoxNzQzNzk2NTQ1LCJpYXQiOjE3NDM3OTI5NDUsImp0aSI6ImU3YTkxM2YxLWZhOWItNDgyNy05MzBlLTZjYWUzNTcyZjBlMyIsImF1dGhvcml0aWVzIjpbIkdFUkVOVEUiXSwiZW1haWwiOiJwZWRyby5sYXBhMTkxMUBnbWFpbC5jb20ifQ.YeFf8Fbgr9CatYHUH531NvZEHdMDrTR_a8ECCKhqjTWdUFxHCuvkzj0B5wqtvVpS3HBPceZUhlZNbLWpGb0TjqFkNFuzyXEOQvbJyITvIied8UtorCQ35_fOU0wEVDe-LKbCbGq5P4NdRQYQY7CKs-rNcTlBNiybhW21uD34D9rjZAaM_y7KePdj9FAeXDiglM8WrtBF_xZiLe5hVJCiRfoo9iCVGpSsc3wKjM_ayqy2gktQxhlinJkDblhUx4vDwjTnYX7fxln436JaRlUACmR1g7-R9c_UbqsmJvSBVhVM4tV_68J2mJAG_ygWW_sLH03tRyboaEfO-IzvF4Xgxg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/public",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

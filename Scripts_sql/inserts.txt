@@ -1,0 +1,12 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+insert into usuario
+(id, login, senha, email, roles)
+values
+( uuid_generate_v4(), 'admin', '$2a$12$6KscFSLl7HSzCqHFE2lrAu8eop0AW2AnTvI4nnKe1OZAuw4jC7ds.', 'admin@email.com', '{ADMINISTRADOR}' );
+
+
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), 'client-admin', '$2a$12$Wulrksh97aw2JseoyAUrC.PM.Qe2Y4sESUZBjXih/1JByOawQe312','http://localhost:8080/authorized' , 'ADMINISTRADOR');

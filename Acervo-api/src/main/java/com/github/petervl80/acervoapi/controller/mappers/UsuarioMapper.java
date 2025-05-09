@@ -1,0 +1,13 @@
+package com.github.petervl80.acervoapi.controller.mappers;
+
+import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
+import com.github.petervl80.acervoapi.model.Usuario;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface UsuarioMapper {
+
+    Usuario toEntity(UsuarioDTO dto);
+
+    UsuarioDTO toDTO(Usuario usuario);
+}
