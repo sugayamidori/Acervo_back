@@ -25,7 +25,7 @@ public class ClientController implements GenericController {
     private final ClientMapper mapper;
 
     @PostMapping
-    @PreAuthorize("hasRole('GERENTE')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<Void> salvar(@RequestBody ClientDTO dto) {
         log.info("Registrando novo Client: {} com scope: {}", dto.clientId(), dto.scope());
         Client client = mapper.toEntity(dto);

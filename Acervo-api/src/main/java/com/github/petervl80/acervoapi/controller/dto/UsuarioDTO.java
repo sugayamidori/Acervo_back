@@ -12,6 +12,5 @@ public record UsuarioDTO(
         String senha,
         @Email (message = "inválido")
         @NotBlank(message = "Campo obrigatório")
-        String email,
-        List<String> roles) {
+        String email) {
 }

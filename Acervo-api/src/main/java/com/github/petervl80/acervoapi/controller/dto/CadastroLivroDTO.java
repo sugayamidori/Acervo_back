@@ -20,7 +20,6 @@ public record CadastroLivroDTO(
         @Past(message = "Não pode ser uma data futura")
         LocalDate dataPublicacao,
         GeneroLivro genero,
-        BigDecimal preco,
         @NotNull(message = "Campo obrigatório")
         UUID idAutor) {
 }

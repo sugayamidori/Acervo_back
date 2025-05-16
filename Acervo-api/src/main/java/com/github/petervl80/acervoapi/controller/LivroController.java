@@ -25,7 +25,7 @@ public class LivroController implements GenericController {
     private final LivroMapper mapper;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<Void> salvar(@RequestBody @Valid CadastroLivroDTO dto) {
         Livro livro = mapper.toEntity(dto);
         service.salvar(livro);
@@ -34,7 +34,6 @@ public class LivroController implements GenericController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<ResultadoPesquisaLivroDTO> obterDetalhes(@PathVariable String id) {
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
@@ -44,7 +43,7 @@ public class LivroController implements GenericController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<Object> deletar(@PathVariable String id) {
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
@@ -54,8 +53,7 @@ public class LivroController implements GenericController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
-    public ResponseEntity<Page<ResultadoPesquisaLivroDTO>> pesquisa(
+    public ResponseEntity<Page<ResultadoPesquisaLivroDTO>> pesquisar(
             @RequestParam(value = "isbn", required = false)
             String isbn,
             @RequestParam(value = "titulo", required = false)
@@ -80,7 +78,7 @@ public class LivroController implements GenericController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<Object> atualizar(
             @PathVariable String id,
             @RequestBody CadastroLivroDTO dto) {
@@ -89,7 +87,6 @@ public class LivroController implements GenericController {
                     Livro entidadeAux = mapper.toEntity(dto);
                     livro.setDataPublicacao(entidadeAux.getDataPublicacao());
                     livro.setIsbn(entidadeAux.getIsbn());
-                    livro.setPreco(entidadeAux.getPreco());
                     livro.setGenero(entidadeAux.getGenero());
                     livro.setTitulo(entidadeAux.getTitulo());
                     livro.setAutor(entidadeAux.getAutor());

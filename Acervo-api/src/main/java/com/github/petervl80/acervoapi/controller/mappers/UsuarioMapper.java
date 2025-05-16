@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.controller.mappers;
 
+import com.github.petervl80.acervoapi.controller.dto.ResultadoPesquisaUsuarioDTO;
 import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import org.mapstruct.Mapper;
@@ -10,4 +11,6 @@ public interface UsuarioMapper {
     Usuario toEntity(UsuarioDTO dto);
 
     UsuarioDTO toDTO(Usuario usuario);
+
+    ResultadoPesquisaUsuarioDTO toResultadoDTO(Usuario usuario);
 }

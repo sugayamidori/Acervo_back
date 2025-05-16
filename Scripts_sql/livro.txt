@@ -4,7 +4,6 @@ create table livro (
    titulo varchar(150) not null,
    data_publicacao date not null,
    genero varchar(30) not null,
-   preco numeric(18,2),
    data_cadastro timestamp,
    data_atualizacao timestamp,
    id_usuario uuid,

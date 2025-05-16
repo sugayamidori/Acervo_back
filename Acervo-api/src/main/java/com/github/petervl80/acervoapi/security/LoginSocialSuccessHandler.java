@@ -55,8 +55,8 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
         usuario.setEmail(email);
         usuario.setLogin(obterLoginAPartirDoEmail(email));
         usuario.setSenha(SENHA_PADRAO);
-        usuario.setRoles(List.of("OPERADOR"));
-        usuarioService.salvar(usuario);
+        usuario.setRoles(List.of("MEMBRO"));
+        usuarioService.salvarMembro(usuario);
         return usuario;
     }
 

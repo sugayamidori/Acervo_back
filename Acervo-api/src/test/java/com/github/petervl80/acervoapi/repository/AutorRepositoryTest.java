@@ -78,7 +78,6 @@ public class AutorRepositoryTest {
 
         Livro livro = new Livro();
         livro.setIsbn("90887-84874");
-        livro.setPreco(BigDecimal.valueOf(205));
         livro.setGenero(GeneroLivro.FANTASIA);
         livro.setTitulo("BIOGRAFIA");
         livro.setDataPublicacao(LocalDate.of(1999, 1, 2));
@@ -86,7 +85,6 @@ public class AutorRepositoryTest {
 
         Livro livro2 = new Livro();
         livro2.setIsbn("90887-23584");
-        livro2.setPreco(BigDecimal.valueOf(185));
         livro2.setGenero(GeneroLivro.MISTERIO);
         livro2.setTitulo("OUTRA HISTORIA");
         livro2.setDataPublicacao(LocalDate.of(2000, 8, 23));

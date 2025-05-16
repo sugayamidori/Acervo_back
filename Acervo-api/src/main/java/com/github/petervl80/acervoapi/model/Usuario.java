@@ -28,5 +28,5 @@ public class Usuario {
 
     @Type(ListArrayType.class)
     @Column(name = "roles", columnDefinition = "varchar[]")
-    private List<String> roles   ;
+    private List<String> roles;
 }

@@ -31,7 +31,7 @@ public class AutorController implements GenericController {
     private final AutorMapper mapper;
 
     @PostMapping
-    @PreAuthorize("hasRole('GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     @Operation(summary = "Salvar Autor", description = "Cadastrar novo autor")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Cadastrado com sucesso."),
@@ -51,7 +51,6 @@ public class AutorController implements GenericController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
         var idAutor = UUID.fromString(id);
 
@@ -64,7 +63,7 @@ public class AutorController implements GenericController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<Void> deletar(@PathVariable String id) {
         log.info("Deletando autor de ID: {}", id);
         var idAutor = UUID.fromString(id);
@@ -79,7 +78,6 @@ public class AutorController implements GenericController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
@@ -93,7 +91,7 @@ public class AutorController implements GenericController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<Void> atualizar(@PathVariable String id, @RequestBody AutorDTO dto) {
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);

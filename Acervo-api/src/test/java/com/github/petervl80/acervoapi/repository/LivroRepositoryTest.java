@@ -27,7 +27,6 @@ class LivroRepositoryTest {
     void salvarTest() {
         Livro livro = new Livro();
         livro.setIsbn("90987-84874");
-        livro.setPreco(BigDecimal.valueOf(120));
         livro.setGenero(GeneroLivro.FANTASIA);
         livro.setTitulo("SLA");
         livro.setDataPublicacao(LocalDate.of(1985, 1, 2));
@@ -45,7 +44,6 @@ class LivroRepositoryTest {
     void salvarCascadeTest() {
         Livro livro = new Livro();
         livro.setIsbn("90887-84874");
-        livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FICCAO);
         livro.setTitulo("OUTRO LIVRO");
         livro.setDataPublicacao(LocalDate.of(1980, 1, 2));

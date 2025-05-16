@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Maria\",\r\n    \"dataNascimento\": \"1998-01-01\",\r\n    \"nacionalidade\": \"Brasileira\"\r\n}",
+							"raw": "{\r\n    \"nome\": \"Tiago\",\r\n    \"dataNascimento\": \"1980-01-01\",\r\n    \"nacionalidade\": \"Brasileira\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -48,26 +48,16 @@
 				{
 					"name": "Buscar por id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/autores/018f07a8-3e65-48bb-9241-f99d5535e5f3",
+							"raw": "{{baseURL}}/autores/0e5ed850-ff19-448d-a294-8fc8c8d91e2d",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"autores",
-								"018f07a8-3e65-48bb-9241-f99d5535e5f3"
+								"0e5ed850-ff19-448d-a294-8fc8c8d91e2d"
 							]
 						}
 					},
@@ -76,20 +66,10 @@
 				{
 					"name": "Filtrar",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/autores?nacionalidade=Chinês",
+							"raw": "{{baseURL}}/autores?nome=Maria",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -99,12 +79,12 @@
 							"query": [
 								{
 									"key": "nome",
-									"value": "Maria",
-									"disabled": true
+									"value": "Maria"
 								},
 								{
 									"key": "nacionalidade",
-									"value": "Chinês"
+									"value": "Chinês",
+									"disabled": true
 								}
 							]
 						}
@@ -210,7 +190,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"isbn\": \"9781234567897\",\r\n    \"titulo\": \"SLA OQ\",\r\n    \"dataPublicacao\": \"2020-01-01\",\r\n    \"genero\": \"FICCAO\",\r\n    \"preco\": 20,\r\n    \"idAutor\": \"018f07a8-3e65-48bb-9241-f99d5535e5f3\"\r\n}",
+							"raw": "{\r\n    \"isbn\": \"9781234567897\",\r\n    \"titulo\": \"Livro do tiago\",\r\n    \"dataPublicacao\": \"2021-02-01\",\r\n    \"genero\": \"FICCAO\",\r\n    \"idAutor\": \"0e5ed850-ff19-448d-a294-8fc8c8d91e2d\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,16 +255,6 @@
 				{
 					"name": "Obter Detalhes",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -299,7 +269,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "054f9978-6e40-4238-b5ee-0b7116f49cdd"
+									"value": "8e896e31-ab77-4875-a597-77814946f375"
 								}
 							]
 						}
@@ -343,16 +313,6 @@
 				{
 					"name": "Pesquisa",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -363,7 +323,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseURL}}/livros?nomeAutor=ED&pagina=0&tamanhoPagina=1",
+							"raw": "{{baseURL}}/livros?pagina=0&tamanhoPagina=1",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -383,7 +343,8 @@
 								},
 								{
 									"key": "nomeAutor",
-									"value": "ED"
+									"value": "Maria",
+									"disabled": true
 								},
 								{
 									"key": "genero",
@@ -414,13 +375,13 @@
 			"name": "Usuarios",
 			"item": [
 				{
-					"name": "Salvar",
+					"name": "Salvar Membro",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"cliente\",\r\n    \"senha\": \"cliente123\",\r\n    \"email\": \"cliente@gmail.com\",\r\n    \"roles\": [\r\n        \"CLIENTE\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"login\": \"membro2\",\r\n    \"senha\": \"membro123\",\r\n    \"email\": \"membro@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -434,6 +395,80 @@
 							],
 							"path": [
 								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salvar Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"admin2\",\r\n    \"senha\": \"admin123\",\r\n    \"email\": \"admin2@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/admins",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salvar Bibliotecario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"bibliotecario2\",\r\n    \"senha\": \"bibliotecario123\",\r\n    \"email\": \"bibliotecario2@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/bibliotecarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"bibliotecarios"
 							]
 						}
 					},
