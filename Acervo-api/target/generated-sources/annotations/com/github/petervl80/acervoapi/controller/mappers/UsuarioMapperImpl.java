@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.controller.mappers;
 
+import com.github.petervl80.acervoapi.controller.dto.ResultadoPesquisaUsuarioDTO;
 import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import java.util.ArrayList;
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-09T11:52:12-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.6 (Oracle Corporation)"
+    date = "2025-05-17T20:28:03-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.3 (Oracle Corporation)"
 )
 @Component
 public class UsuarioMapperImpl implements UsuarioMapper {
@@ -26,10 +27,6 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         usuario.setLogin( dto.login() );
         usuario.setSenha( dto.senha() );
         usuario.setEmail( dto.email() );
-        List<String> list = dto.roles();
-        if ( list != null ) {
-            usuario.setRoles( new ArrayList<String>( list ) );
-        }
 
         return usuario;
     }
@@ -43,18 +40,35 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         String login = null;
         String senha = null;
         String email = null;
-        List<String> roles = null;
 
         login = usuario.getLogin();
         senha = usuario.getSenha();
+        email = usuario.getEmail();
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO( login, senha, email );
+
+        return usuarioDTO;
+    }
+
+    @Override
+    public ResultadoPesquisaUsuarioDTO toResultadoDTO(Usuario usuario) {
+        if ( usuario == null ) {
+            return null;
+        }
+
+        String login = null;
+        String email = null;
+        List<String> roles = null;
+
+        login = usuario.getLogin();
         email = usuario.getEmail();
         List<String> list = usuario.getRoles();
         if ( list != null ) {
             roles = new ArrayList<String>( list );
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO( login, senha, email, roles );
+        ResultadoPesquisaUsuarioDTO resultadoPesquisaUsuarioDTO = new ResultadoPesquisaUsuarioDTO( login, email, roles );
 
-        return usuarioDTO;
+        return resultadoPesquisaUsuarioDTO;
     }
 }

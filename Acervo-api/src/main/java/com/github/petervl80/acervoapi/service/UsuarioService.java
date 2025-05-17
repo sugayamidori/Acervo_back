@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,12 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.*;
+import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.nomeLike;
+import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.roleLike;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +67,30 @@ public class UsuarioService {
         Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
 
         return repository.findAll(specs, pageRequest);
+    }
+
+    public Usuario autenticar(UsuarioDTO dto) {
+        String login = dto.login();
+        String senhaDigitada = dto.senha();
+
+        Usuario usuarioEncontrado = obterPorLogin(login);
+
+        if (usuarioEncontrado == null) {
+            throw getErroUsuarioNaoEncontrado();
+        }
+
+        String senhaCriptografada = usuarioEncontrado.getSenha();
+
+        boolean senhasBatem = encoder.matches(senhaDigitada, senhaCriptografada);
+
+        if (senhasBatem) {
+            return usuarioEncontrado;
+        }
+
+        throw getErroUsuarioNaoEncontrado();
+    }
+
+    private static UsernameNotFoundException getErroUsuarioNaoEncontrado() {
+        return new UsernameNotFoundException("Usuário e/ou senha incorretos");
     }
 }

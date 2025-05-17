@@ -29,21 +29,13 @@ public class SecurityConfiguration {
             JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(configurer -> {
-                    configurer.loginPage("/login");
-                })
+                .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/login/**").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/autores/**").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/livros/**").permitAll();
 
                     authorize.anyRequest().authenticated();
-                })
-                .oauth2Login(oauth2 -> {
-                    oauth2
-                            .loginPage("/login")
-                            .successHandler(successHandler);
                 })
                 .oauth2ResourceServer(oauth2RS -> oauth2RS.jwt(Customizer.withDefaults()))
                 .addFilterAfter(jwtCustomAuthenticationFilter, BearerTokenAuthenticationFilter.class)

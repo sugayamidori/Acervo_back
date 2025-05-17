@@ -51,7 +51,7 @@ public class AuthorizationServerConfiguration {
 
         http.oauth2ResourceServer(oauth2Rs -> oauth2Rs.jwt(Customizer.withDefaults()));
 
-        http.formLogin(configurer -> configurer.loginPage("/login"));
+        http.formLogin(Customizer.withDefaults());
 
         return http.build();
     }
@@ -66,9 +66,9 @@ public class AuthorizationServerConfiguration {
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
                 // access_token: token utilizado nas requisições
-                .accessTokenTimeToLive(Duration.ofMinutes(60))
+                .accessTokenTimeToLive(Duration.ofMinutes(4380))
                 // refresh_token: token para renovar o access_token
-                .refreshTokenTimeToLive(Duration.ofMinutes(90))
+                .refreshTokenTimeToLive(Duration.ofMinutes(4400))
                 .build();
     }
 
