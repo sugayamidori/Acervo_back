@@ -27,12 +27,8 @@ public class LivroSpecs {
                         root.get("dataPublicacao"), cb.literal("YYYY")) , anoPublicacao.toString());
     }
 
-    public static Specification<Livro> nomeAutorLike(String nome) {
-        return (root, query, cb) -> {
-            Join<Object, Object> joinAutor = root.join("autor", JoinType.LEFT);
-
-            return cb.like( cb.upper(joinAutor.get("nome")), "%" + nome.toUpperCase() + "%");
-//            return cb.like( cb.upper(root.get("autor").get("nome")), "%" + nome.toUpperCase() + "%");
-        };
+    public static Specification<Livro> autorLike(String autor) {
+        return (root, query, cb) ->
+            cb.like( cb.upper(root.get("autor")), "%" + autor.toUpperCase() + "%");
     }
 }

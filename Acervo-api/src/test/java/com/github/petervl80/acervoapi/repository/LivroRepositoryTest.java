@@ -1,6 +1,5 @@
 package com.github.petervl80.acervoapi.repository;
 
-import com.github.petervl80.acervoapi.model.Autor;
 import com.github.petervl80.acervoapi.model.GeneroLivro;
 import com.github.petervl80.acervoapi.model.Livro;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +18,6 @@ class LivroRepositoryTest {
     @Autowired
     LivroRepository repository;
 
-    @Autowired
-    AutorRepository autorRepository;
-
     @Test
     void salvarTest() {
         Livro livro = new Livro();
@@ -31,9 +26,7 @@ class LivroRepositoryTest {
         livro.setTitulo("SLA");
         livro.setDataPublicacao(LocalDate.of(1985, 1, 2));
 
-        Autor autor = autorRepository
-                .findById(UUID.fromString("b838e407-c656-450b-be99-979a0c532076"))
-                .orElse(null);
+        String autor = "Carlos";
 
         livro.setAutor(autor);
 
@@ -48,11 +41,7 @@ class LivroRepositoryTest {
         livro.setTitulo("OUTRO LIVRO");
         livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
 
-        Autor autor = new Autor();
-        autor.setNome("João");
-        autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1951, 1, 30));
-
+        String autor = "João";
         livro.setAutor(autor);
 
         repository.save(livro);
@@ -66,7 +55,7 @@ class LivroRepositoryTest {
         System.out.println("Livro: ");
         System.out.println(livro.getTitulo());
         System.out.println("Autor: ");
-        System.out.println(livro.getAutor().getNome());
+        System.out.println(livro.getAutor());
     }
 
     @Test

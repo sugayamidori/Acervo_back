@@ -3,10 +3,8 @@ package com.github.petervl80.acervoapi.service;
 import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
+import com.github.petervl80.acervoapi.validator.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.nomeLike;
-import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.roleLike;
+import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,25 +20,20 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder encoder;
+    private final UsuarioValidator validator;
 
     public void salvarMembro(Usuario usuario) {
+        validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
         usuario.setRoles(List.of("MEMBRO"));
         repository.save(usuario);
     }
 
-    public void salvarAdministrador(Usuario usuario) {
+    public void salvarUsuario(Usuario usuario) {
+        validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
-        usuario.setRoles(List.of("ADMINISTRADOR"));
-        repository.save(usuario);
-    }
-
-    public void salvarBibliotecario(Usuario usuario) {
-        var senha = usuario.getSenha();
-        usuario.setSenha(encoder.encode(senha));
-        usuario.setRoles(List.of("BIBLIOTECARIO"));
         repository.save(usuario);
     }
 
@@ -53,27 +45,26 @@ public class UsuarioService {
         return repository.findByEmail(email);
     }
 
-    public Page<Usuario> pesquisa(String nome, String role, Integer pagina, Integer tamanhoPagina) {
+    public List<Usuario> pesquisa(String login, String role) {
 
         Specification<Usuario> specs = (root, query, cb) -> cb.conjunction();
 
-        if(nome != null) {
-            specs = specs.and(nomeLike(nome));
+        if(login != null) {
+            specs = specs.and(loginLike(login));
         }
 
         if(role != null) {
-            specs.and(roleLike(role));
+            specs = specs.and(roleLike(role));
         }
-        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
 
-        return repository.findAll(specs, pageRequest);
+        return repository.findAll(specs);
     }
 
     public Usuario autenticar(UsuarioDTO dto) {
-        String login = dto.login();
+        String email = dto.email();
         String senhaDigitada = dto.senha();
 
-        Usuario usuarioEncontrado = obterPorLogin(login);
+        Usuario usuarioEncontrado = obterPorEmail(email);
 
         if (usuarioEncontrado == null) {
             throw getErroUsuarioNaoEncontrado();

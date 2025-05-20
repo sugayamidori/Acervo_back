@@ -1,5 +1,3 @@
 /app.log
-
-/.idea/*
-
 /Acervo-api/target/*
+/.idea/

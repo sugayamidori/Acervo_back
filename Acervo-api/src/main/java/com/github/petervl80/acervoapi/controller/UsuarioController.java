@@ -2,19 +2,20 @@ package com.github.petervl80.acervoapi.controller;
 
 import com.github.petervl80.acervoapi.controller.dto.ResultadoPesquisaUsuarioDTO;
 import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
+import com.github.petervl80.acervoapi.controller.dto.UsuarioMembroDTO;
 import com.github.petervl80.acervoapi.controller.mappers.UsuarioMapper;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.service.ClientService;
 import com.github.petervl80.acervoapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,8 +27,8 @@ public class UsuarioController implements GenericController {
     private final ClientService clientService;
     private final UsuarioMapper mapper;
 
-    @PostMapping
-    public ResponseEntity<Void> salvarMembro(@RequestBody @Valid UsuarioDTO dto) {
+    @PostMapping("/membros")
+    public ResponseEntity<Void> salvarMembro(@RequestBody @Valid UsuarioMembroDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         service.salvarMembro(usuario);
 
@@ -36,22 +37,11 @@ public class UsuarioController implements GenericController {
         return ResponseEntity.created(location).build();
     }
 
-    @PostMapping("/admins")
+    @PostMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<Void> salvarAdministrador(@RequestBody @Valid UsuarioDTO dto) {
+    public ResponseEntity<Void> salvarUsuario(@RequestBody @Valid UsuarioDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
-        service.salvarAdministrador(usuario);
-
-        URI location = gerarHeaderLocation(usuario.getId());
-
-        return ResponseEntity.created(location).build();
-    }
-
-    @PostMapping("/bibliotecarios")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<Void> salvarBibliotecario(@RequestBody @Valid UsuarioDTO dto) {
-        Usuario usuario = mapper.toEntity(dto);
-        service.salvarBibliotecario(usuario);
+        service.salvarUsuario(usuario);
 
         URI location = gerarHeaderLocation(usuario.getId());
 
@@ -59,17 +49,14 @@ public class UsuarioController implements GenericController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResultadoPesquisaUsuarioDTO>> pesquisar(
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "role", required = false) String role,
-            @RequestParam(value = "pagina", defaultValue = "0")
-            Integer pagina,
-            @RequestParam(value = "tamanhoPagina", defaultValue = "10")
-            Integer tamanhoPagina) {
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
+    public ResponseEntity<List<ResultadoPesquisaUsuarioDTO>> pesquisar(
+            @RequestParam(value = "login", required = false) String login,
+            @RequestParam(value = "role", required = false) String role) {
 
-        Page<Usuario> paginaResultado = service.pesquisa(nome, role, pagina, tamanhoPagina);
+        List<Usuario> paginaResultado = service.pesquisa(login, role);
 
-        Page<ResultadoPesquisaUsuarioDTO> resultado = paginaResultado.map(mapper::toResultadoDTO);
+        List<ResultadoPesquisaUsuarioDTO> resultado = paginaResultado.stream().map(mapper::toResultadoDTO).toList();
 
         return ResponseEntity.ok(resultado);
     }

@@ -21,5 +21,5 @@ public record CadastroLivroDTO(
         LocalDate dataPublicacao,
         GeneroLivro genero,
         @NotNull(message = "Campo obrigatório")
-        UUID idAutor) {
+        String autor) {
 }
