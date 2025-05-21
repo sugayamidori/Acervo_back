@@ -37,12 +37,8 @@ public class Livro {
     @Column(name = "genero", length = 30, nullable = false)
     private GeneroLivro genero;
 
-    @ManyToOne(
-            //cascade = CascadeType.ALL
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "id_autor")
-    private Autor autor;
+    @Column(name = "autor")
+    private String autor;
 
     @CreatedDate
     @Column(name = "data_cadastro")

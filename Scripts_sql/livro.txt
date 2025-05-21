@@ -1,3 +1,6 @@
+
+CREATE TYPE disponibilidade_enum AS ENUM ('DISPONIVEL', 'INDISPONIVEL');
+
 create table livro (
    id uuid not null primary key,
    isbn varchar(20) not null unique,
@@ -7,6 +10,8 @@ create table livro (
    data_cadastro timestamp,
    data_atualizacao timestamp,
    id_usuario uuid,
-   id_autor uuid not null references autor(id),
+   autor varchar(50) not null,
+   sumario varchar(255),
+   status disponibilidade_enum DEFAULT 'DISPONIVEL',
    constraint chk_genero check (genero in ('FICCAO', 'FANTASIA', 'MISTERIO','ROMANCE', 'BIOGRAFIA', 'CIENCIA') )
 );

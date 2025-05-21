@@ -32,7 +32,6 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
-                    authorize.requestMatchers(HttpMethod.GET, "/autores/**").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/livros/**").permitAll();
 
                     authorize.anyRequest().authenticated();

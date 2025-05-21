@@ -1,6 +1,5 @@
 package com.github.petervl80.acervoapi.validator;
 
-import com.github.petervl80.acervoapi.exceptions.CampoInvalidoException;
 import com.github.petervl80.acervoapi.exceptions.RegistroDuplicadoException;
 import com.github.petervl80.acervoapi.model.Livro;
 import com.github.petervl80.acervoapi.repository.LivroRepository;
