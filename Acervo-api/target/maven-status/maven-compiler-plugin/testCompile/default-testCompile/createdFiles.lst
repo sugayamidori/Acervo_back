@@ -1,3 +1,4 @@
-com\github\petervl80\acervoapi\repository\LivroRepositoryTest.class
+com\github\petervl80\acervoapi\service\EmprestimoServiceTest.class
 com\github\petervl80\acervoapi\ApplicationTests.class
+com\github\petervl80\acervoapi\repository\LivroRepositoryTest.class
 com\github\petervl80\acervoapi\repository\AutorRepositoryTest.class
