@@ -16,7 +16,7 @@ public class LivroValidator {
 
     public void validar(Livro livro) {
         if(existeLivroComIsbn(livro)) {
-            throw new RegistroDuplicadoException("ISBN já cadastrado");
+            throw new RegistroDuplicadoException("ISBN já cadastrado para outro livro");
         }
     }
 

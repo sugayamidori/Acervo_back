@@ -2,15 +2,18 @@
 FROM maven:3.8.8-amazoncorretto-21-al2023 as build
 WORKDIR /build
 
-COPY . .
+# Copie apenas os arquivos de configuração Maven primeiro
+COPY pom.xml .
+COPY src ./src
 
+# Resolve dependências e compila
 RUN mvn clean package -DskipTests
 
 # run
 FROM amazoncorretto:21.0.5
 WORKDIR /app
 
-COPY --from=build ./build/target/*.jar ./acervoapi.jar
+COPY --from=build /build/target/*.jar ./acervoapi.jar
 
 EXPOSE 8080
 EXPOSE 9090

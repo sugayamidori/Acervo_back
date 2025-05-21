@@ -21,6 +21,7 @@ public class ClientService {
 
     private final ClientRepository repository;
     private final PasswordEncoder encoder;
+    private final RestTemplate restTemplate;
 
     public Client salvar(Client client) {
         String senhaCriptografada = encoder.encode(client.getClientSecret());
@@ -37,6 +38,7 @@ public class ClientService {
                 .fromCurrentContextPath()
                 .build()
                 .toUriString();
+
         Client client = repository.findByScopeInAndRedirectURIContaining(usuario.getRoles(), context);
         String tokenUrl = context + "/oauth2/token";
 
@@ -50,12 +52,9 @@ public class ClientService {
         body.add("scope", client.getScope());
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
-        RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, request, String.class);
 
         return response.getBody();
     }
-
-
-
 }

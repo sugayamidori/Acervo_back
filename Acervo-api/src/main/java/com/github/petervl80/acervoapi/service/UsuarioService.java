@@ -22,19 +22,19 @@ public class UsuarioService {
     private final PasswordEncoder encoder;
     private final UsuarioValidator validator;
 
-    public void salvarMembro(Usuario usuario) {
+    public Usuario salvarMembro(Usuario usuario) {
         validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
         usuario.setRoles(List.of("MEMBRO"));
-        repository.save(usuario);
+        return repository.save(usuario);
     }
 
-    public void salvarUsuario(Usuario usuario) {
+    public Usuario salvarUsuario(Usuario usuario) {
         validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
-        repository.save(usuario);
+        return repository.save(usuario);
     }
 
     public Usuario obterPorLogin(String login) {
