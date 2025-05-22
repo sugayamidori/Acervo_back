@@ -88,6 +88,7 @@ public class LivroController implements GenericController {
                     livro.setAutor(entidadeAux.getAutor());
                     livro.setSumario(entidadeAux.getSumario());
                     livro.setStatus(entidadeAux.getStatus());
+                    livro.setImagem(entidadeAux.getImagem());
 
                     service.atualizar(livro);
 

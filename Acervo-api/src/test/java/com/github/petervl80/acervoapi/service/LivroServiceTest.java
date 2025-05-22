@@ -41,14 +41,12 @@ class LivroServiceTest {
     private LivroService service;
 
     private UUID idLivro;
-    private UUID idMembro;
     private Usuario usuario;
     private Livro livro;
 
     @BeforeEach
     void setUp() {
         idLivro = UUID.randomUUID();
-        idMembro = UUID.randomUUID();
 
         livro = new Livro();
         livro.setId(idLivro);

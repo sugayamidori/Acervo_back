@@ -23,7 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String login = authentication.getName();
         String senhaDigitada = authentication.getCredentials().toString();
 
-        Usuario usuarioEncontrado = usuarioService.obterPorLogin(login);
+        Usuario usuarioEncontrado = usuarioService.obterPorEmail(login);
 
         if (usuarioEncontrado == null) {
             throw getErroUsuarioNaoEncontrado();

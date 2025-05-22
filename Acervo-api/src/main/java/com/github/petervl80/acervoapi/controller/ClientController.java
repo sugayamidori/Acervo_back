@@ -4,6 +4,7 @@ import com.github.petervl80.acervoapi.controller.dto.ClientDTO;
 import com.github.petervl80.acervoapi.controller.mappers.ClientMapper;
 import com.github.petervl80.acervoapi.model.Client;
 import com.github.petervl80.acervoapi.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class ClientController implements GenericController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<Void> salvar(@RequestBody ClientDTO dto) {
+    public ResponseEntity<Void> salvar(@RequestBody @Valid ClientDTO dto) {
         log.info("Registrando novo Client: {} com scope: {}", dto.clientId(), dto.scope());
         Client client = mapper.toEntity(dto);
         service.salvar(client);
