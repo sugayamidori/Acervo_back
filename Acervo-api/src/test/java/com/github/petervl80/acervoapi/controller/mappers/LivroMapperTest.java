@@ -31,16 +31,16 @@ class LivroMapperTest {
                 "Livro clássico",
                 "SGVsbG8gd29ybGQ="); //"Hello world" em base64
 
-        Livro entityToFill = mapper.toEntity(dto);
+        Livro livro = mapper.toEntity(dto);
 
-        assertNotNull(entityToFill);
-        assertEquals(dto.isbn(), entityToFill.getIsbn());
-        assertEquals(dto.titulo(), entityToFill.getTitulo());
-        assertEquals(dto.dataPublicacao(), entityToFill.getDataPublicacao());
-        assertEquals(dto.genero(), entityToFill.getGenero());
-        assertEquals(dto.autor(), entityToFill.getAutor());
-        assertEquals(dto.sumario(), entityToFill.getSumario());
-        assertArrayEquals("Hello world".getBytes(), entityToFill.getImagem());
+        assertNotNull(livro);
+        assertEquals(dto.isbn(), livro.getIsbn());
+        assertEquals(dto.titulo(), livro.getTitulo());
+        assertEquals(dto.dataPublicacao(), livro.getDataPublicacao());
+        assertEquals(dto.genero(), livro.getGenero());
+        assertEquals(dto.autor(), livro.getAutor());
+        assertEquals(dto.sumario(), livro.getSumario());
+        assertArrayEquals("Hello world".getBytes(), livro.getImagem());
     }
 
     @Test
@@ -54,16 +54,16 @@ class LivroMapperTest {
         entity.setSumario("Livro clássico");
         entity.setImagem("Hello world".getBytes());
 
-        ResultadoPesquisaLivroDTO dtoToFill = mapper.toDTO(entity);
+        ResultadoPesquisaLivroDTO dto = mapper.toDTO(entity);
 
-        assertNotNull(dtoToFill);
-        assertEquals(entity.getIsbn(), dtoToFill.isbn());
-        assertEquals(entity.getTitulo(), dtoToFill.titulo());
-        assertEquals(entity.getDataPublicacao(), dtoToFill.dataPublicacao());
-        assertEquals(entity.getGenero(), dtoToFill.genero());
-        assertEquals(entity.getAutor(), dtoToFill.autor());
-        assertEquals(entity.getSumario(), dtoToFill.sumario());
-        assertEquals("SGVsbG8gd29ybGQ=", dtoToFill.imagem());
+        assertNotNull(dto);
+        assertEquals(entity.getIsbn(), dto.isbn());
+        assertEquals(entity.getTitulo(), dto.titulo());
+        assertEquals(entity.getDataPublicacao(), dto.dataPublicacao());
+        assertEquals(entity.getGenero(), dto.genero());
+        assertEquals(entity.getAutor(), dto.autor());
+        assertEquals(entity.getSumario(), dto.sumario());
+        assertEquals("SGVsbG8gd29ybGQ=", dto.imagem());
     }
 
     @Test
@@ -76,8 +76,8 @@ class LivroMapperTest {
                 "Livro clássico",
                 null);
 
-        Livro entity = mapper.toEntity(dto);
-        assertNull(entity.getImagem());
+        Livro livro = mapper.toEntity(dto);
+        assertNull(livro.getImagem());
     }
 
     @Test
