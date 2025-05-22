@@ -3,6 +3,7 @@ package com.github.petervl80.acervoapi.service;
 import com.github.petervl80.acervoapi.model.Client;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.ClientRepository;
+import com.github.petervl80.acervoapi.validator.ClientValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ class ClientServiceTest {
 
     @Mock
     private ClientRepository repository;
+
+    @Mock
+    private ClientValidator validator;
 
     @Mock
     private PasswordEncoder encoder;
@@ -67,6 +71,7 @@ class ClientServiceTest {
 
         Client salvo = service.salvar(client);
 
+        verify(validator).validar(client);
         verify(encoder).encode(senha);
         verify(repository).save(client);
 

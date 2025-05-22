@@ -28,8 +28,8 @@ public class ClientValidator {
         }
 
         return clientEncontrado
-                .map(Client::getClientId)
+                .map(Client::getId)
                 .stream()
-                .anyMatch( clientId -> !clientId.equals(client.getClientId()));
+                .anyMatch( id -> !id.equals(client.getId()));
     }
 }
