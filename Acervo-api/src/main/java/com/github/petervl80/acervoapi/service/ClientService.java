@@ -3,6 +3,7 @@ package com.github.petervl80.acervoapi.service;
 import com.github.petervl80.acervoapi.model.Client;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.ClientRepository;
+import com.github.petervl80.acervoapi.validator.ClientValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,10 +21,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class ClientService {
 
     private final ClientRepository repository;
+    private final ClientValidator validator;
     private final PasswordEncoder encoder;
     private final RestTemplate restTemplate;
 
     public Client salvar(Client client) {
+        validator.validar(client);
         String senhaCriptografada = encoder.encode(client.getClientSecret());
         client.setClientSecret(senhaCriptografada);
         return repository.save(client);
