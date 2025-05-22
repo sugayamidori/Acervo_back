@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.github.petervl80.acervoapi.model.DisponibilidadeEnum;
 import com.github.petervl80.acervoapi.model.GeneroLivro;
 import com.github.petervl80.acervoapi.model.Livro;
 import com.github.petervl80.acervoapi.model.Usuario;
@@ -28,6 +29,7 @@ public class LivroService {
         validator.validar(livro);
         Usuario usuario = securityService.obterUsuarioLogado();
         livro.setUsuario(usuario);
+        livro.setStatus(DisponibilidadeEnum.DISPONIVEL);
         return repository.save(livro);
     }
 

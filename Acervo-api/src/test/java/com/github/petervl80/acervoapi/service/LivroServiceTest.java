@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.github.petervl80.acervoapi.model.DisponibilidadeEnum;
 import com.github.petervl80.acervoapi.model.GeneroLivro;
 import com.github.petervl80.acervoapi.model.Livro;
 import com.github.petervl80.acervoapi.model.Usuario;
@@ -82,6 +83,7 @@ class LivroServiceTest {
         assertEquals(livro.getAutor(), salvo.getAutor());
         assertEquals(livro.getDataCadastro(), salvo.getDataCadastro());
         assertEquals(livro.getDataAtualizacao(), salvo.getDataAtualizacao());
+        assertEquals(DisponibilidadeEnum.DISPONIVEL, salvo.getStatus());
         assertEquals(usuario, salvo.getUsuario());
     }
 
