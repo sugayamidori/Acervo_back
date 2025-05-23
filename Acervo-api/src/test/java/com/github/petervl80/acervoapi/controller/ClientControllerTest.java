@@ -72,7 +72,7 @@ class ClientControllerTest {
     }
 
     @Test
-    void deveLancarExcecaoQuandoSalvarFalha() {
+    void deveLancarExcecaoQuandoSalvarFalhar() {
         when(mapper.toEntity(dto)).thenReturn(client);
         doThrow(new RuntimeException("Erro inesperado")).when(service).salvar(client);
 
