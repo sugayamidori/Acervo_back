@@ -48,6 +48,9 @@ management:
 
 springdoc:
   override-with-generic-response: false
+mercado:
+  pago:
+    token: ${MERCADO_PAGO_TOKEN}
 
 
 # production

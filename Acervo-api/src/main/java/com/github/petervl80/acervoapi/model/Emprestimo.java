@@ -27,9 +27,8 @@ public class Emprestimo {
     private LocalDate dataLimiteDevolucao;
     private LocalDate dataDevolucao;
 
-    private BigDecimal multa;
-    private LocalDate dataPagamentoMulta;
-
+    @OneToOne(mappedBy = "emprestimo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Multa multa;
 
     @Enumerated(EnumType.STRING)
     private StatusEmprestimo status;
@@ -37,4 +36,3 @@ public class Emprestimo {
     @ManyToOne
     private Usuario registradoPor;
 }
-

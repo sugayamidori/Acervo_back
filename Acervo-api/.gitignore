@@ -23,3 +23,7 @@
 hs_err_pid*
 replay_pid*
 /target/
+app.log
+app.log.2025-05-18.0.gz
+app.log.2025-05-21.0.gz
+.idea

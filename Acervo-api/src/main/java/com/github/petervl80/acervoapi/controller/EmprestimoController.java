@@ -1,12 +1,14 @@
 package com.github.petervl80.acervoapi.controller;
 
 import com.github.petervl80.acervoapi.controller.dto.EmprestimoDTO;
+import com.github.petervl80.acervoapi.controller.dto.EmprestimoListagemDTO;
 import com.github.petervl80.acervoapi.controller.mappers.EmprestimoMapper;
 import com.github.petervl80.acervoapi.service.EmprestimoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,8 +21,8 @@ public class EmprestimoController {
 
     @PostMapping
     public ResponseEntity<EmprestimoDTO> registrarEmprestimo(
-            @RequestParam UUID idLivro,
-            @RequestParam UUID idMembro
+            @RequestParam("idLivro") UUID idLivro,
+            @RequestParam("idMembro") UUID idMembro
     ) {
         return ResponseEntity.ok(
                 mapper.toDTO(service.registrarEmprestimo(idLivro, idMembro))
@@ -34,19 +36,11 @@ public class EmprestimoController {
         );
     }
 
-    @PostMapping("/{id}/pagamento")
-    public ResponseEntity<EmprestimoDTO> realizarPagamento(
-            @PathVariable UUID id,
-            @RequestBody PagamentoRequest request
-    ) {
-        return ResponseEntity.ok(
-                mapper.toDTO(service.realizarPagamento(id, request))
-        );
-    }
     @PostMapping("/reserva")
-    public ResponseEntity<EmprestimoDTO> reservarLivro(@RequestParam UUID idLivro) {
+    public ResponseEntity<EmprestimoDTO> reservarLivro(@RequestParam("idLivro") UUID idLivro) {
         return ResponseEntity.ok(mapper.toDTO(service.reservarLivro(idLivro)));
     }
+
     @PutMapping("/{id}/liberar")
     public ResponseEntity<EmprestimoDTO> liberarEmprestimo(@PathVariable UUID id) {
         return ResponseEntity.ok(
@@ -54,6 +48,8 @@ public class EmprestimoController {
         );
     }
 
-
-
+    @GetMapping
+    public ResponseEntity<List<EmprestimoListagemDTO>> listarEmprestimos() {
+        return ResponseEntity.ok(service.listarEmprestimos());
+    }
 }
