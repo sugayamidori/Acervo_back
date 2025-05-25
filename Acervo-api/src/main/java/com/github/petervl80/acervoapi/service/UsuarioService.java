@@ -5,14 +5,13 @@ import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
 import com.github.petervl80.acervoapi.validator.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.*;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +20,14 @@ public class UsuarioService {
     private final UsuarioRepository repository;
     private final PasswordEncoder encoder;
     private final UsuarioValidator validator;
+
+    public Optional<Usuario> obterPorId(UUID id) {
+        return repository.findById(id);
+    }
+
+    public void deletar(Usuario usuario) {
+        repository.delete(usuario);
+    }
 
     public Usuario salvarMembro(Usuario usuario) {
         validator.validar(usuario);
@@ -46,18 +53,25 @@ public class UsuarioService {
     }
 
     public List<Usuario> pesquisa(String login, String role) {
+        String loginFiltro = login;
+        String[] roleFiltro;
 
-        Specification<Usuario> specs = (root, query, cb) -> cb.conjunction();
+        if(login != null && role != null) {
+            loginFiltro = login + "%";
+            roleFiltro = new String[]{role.toUpperCase()};
+            return repository.findByLoginAndRoles(loginFiltro, roleFiltro);
+        }
 
         if(login != null) {
-            specs = specs.and(loginLike(login));
+            return repository.findByLoginStartingWith(loginFiltro);
         }
 
-        if(role != null) {
-            specs = specs.and(roleLike(role));
+        if (role != null) {
+            roleFiltro = new String[]{role.toUpperCase()};
+            return repository.findByRole(roleFiltro);
         }
 
-        return repository.findAll(specs);
+        return null;
     }
 
     public Usuario autenticar(UsuarioDTO dto) {
