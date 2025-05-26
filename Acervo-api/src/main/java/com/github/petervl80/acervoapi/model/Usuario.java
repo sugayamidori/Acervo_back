@@ -18,7 +18,7 @@ public class Usuario {
     private UUID id;
 
     @Column
-    private String login;
+    private String nome;
 
     @Column
     private String senha;

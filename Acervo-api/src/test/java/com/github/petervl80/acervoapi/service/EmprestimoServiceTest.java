@@ -56,11 +56,11 @@ class EmprestimoServiceTest {
 
         membro = new Usuario();
         membro.setId(idMembro);
-        membro.setLogin("membro");
+        membro.setNome("membro");
         membro.setRoles(List.of("MEMBRO"));
 
         bibliotecario = new Usuario();
-        bibliotecario.setLogin("bibliotecario");
+        bibliotecario.setNome("bibliotecario");
         bibliotecario.setRoles(List.of("BIBLIOTECARIO"));
 
         livro = new Livro();
@@ -72,7 +72,7 @@ class EmprestimoServiceTest {
     void deveRegistrarEmprestimoComSucesso() {
         // Arrange
         when(usuarioRepository.findById(idMembro)).thenReturn(Optional.of(membro));
-        when(usuarioRepository.findByLogin("bibliotecario")).thenReturn(bibliotecario);
+        when(usuarioRepository.findByNome("bibliotecario")).thenReturn(bibliotecario);
         when(livroRepository.findById(idLivro)).thenReturn(Optional.of(livro));
         when(emprestimoRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -84,7 +84,7 @@ class EmprestimoServiceTest {
         assertEquals(StatusEmprestimo.RESERVADO, emprestimo.getStatus());
         assertEquals("Livro de Teste", emprestimo.getLivro().getTitulo());
         assertEquals(membro.getId(), emprestimo.getMembro().getId());
-        assertEquals(bibliotecario.getLogin(), emprestimo.getRegistradoPor().getLogin());
+        assertEquals(bibliotecario.getNome(), emprestimo.getRegistradoPor().getNome());
         assertEquals(LocalDate.now().plusDays(7), emprestimo.getDataLimiteDevolucao());
 
         verify(emprestimoRepository).save(any());
@@ -95,7 +95,7 @@ class EmprestimoServiceTest {
         // Arrange
         membro.setRoles(List.of("ADMINISTRADOR"));
         when(usuarioRepository.findById(idMembro)).thenReturn(Optional.of(membro));
-        when(usuarioRepository.findByLogin("bibliotecario")).thenReturn(bibliotecario);
+        when(usuarioRepository.findByNome("bibliotecario")).thenReturn(bibliotecario);
         when(livroRepository.findById(idLivro)).thenReturn(Optional.of(livro));
 
         // Act + Assert
@@ -106,7 +106,7 @@ class EmprestimoServiceTest {
     @Test
     void deveLancarExcecaoQuandoLivroNaoExiste() {
         when(usuarioRepository.findById(idMembro)).thenReturn(Optional.of(membro));
-        when(usuarioRepository.findByLogin("bibliotecario")).thenReturn(bibliotecario);
+        when(usuarioRepository.findByNome("bibliotecario")).thenReturn(bibliotecario);
         when(livroRepository.findById(idLivro)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () ->

@@ -8,7 +8,6 @@ com\github\petervl80\acervoapi\controller\mappers\LivroMapperImpl.class
 com\github\petervl80\acervoapi\controller\dto\UsuarioDTO.class
 com\github\petervl80\acervoapi\controller\dto\PagamentoRequestDTO.class
 com\github\petervl80\acervoapi\config\OpenApiConfiguration.class
-com\github\petervl80\acervoapi\controller\LoginViewController.class
 com\github\petervl80\acervoapi\repository\ClientRepository.class
 com\github\petervl80\acervoapi\service\ClientService.class
 com\github\petervl80\acervoapi\model\StatusEmprestimo.class
@@ -26,6 +25,7 @@ com\github\petervl80\acervoapi\config\PaymentConfiguration.class
 com\github\petervl80\acervoapi\model\Emprestimo.class
 com\github\petervl80\acervoapi\validator\ClientValidator.class
 com\github\petervl80\acervoapi\controller\mappers\LivroMapper.class
+com\github\petervl80\acervoapi\controller\dto\OAuthTokenResponse.class
 com\github\petervl80\acervoapi\model\Multa.class
 com\github\petervl80\acervoapi\model\GeneroLivro.class
 com\github\petervl80\acervoapi\repository\UsuarioRepository.class
@@ -57,6 +57,7 @@ com\github\petervl80\acervoapi\service\UsuarioService.class
 com\github\petervl80\acervoapi\controller\dto\ResultadoPesquisaUsuarioDTO.class
 com\github\petervl80\acervoapi\exceptions\RegistroDuplicadoException.class
 com\github\petervl80\acervoapi\controller\dto\DocumentoIdentificacaoDTO.class
+com\github\petervl80\acervoapi\controller\dto\LoginResponse.class
 com\github\petervl80\acervoapi\model\Usuario.class
 com\github\petervl80\acervoapi\config\CorsConfiguration$1.class
 com\github\petervl80\acervoapi\repository\LivroRepository.class

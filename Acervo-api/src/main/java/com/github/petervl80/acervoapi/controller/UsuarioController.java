@@ -48,10 +48,10 @@ public class UsuarioController implements GenericController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<List<ResultadoPesquisaUsuarioDTO>> pesquisar(
-            @RequestParam(value = "login", required = false) String login,
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "role", required = false) String role) {
 
-        List<Usuario> paginaResultado = service.pesquisa(login, role);
+        List<Usuario> paginaResultado = service.pesquisa(nome, role);
 
         List<ResultadoPesquisaUsuarioDTO> resultado = paginaResultado.stream().map(mapper::toResultadoDTO).toList();
 

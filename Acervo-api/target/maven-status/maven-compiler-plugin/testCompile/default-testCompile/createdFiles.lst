@@ -3,6 +3,7 @@ com\github\petervl80\acervoapi\ApplicationTests.class
 com\github\petervl80\acervoapi\controller\ClientControllerTest.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapperTest.class
 com\github\petervl80\acervoapi\controller\LivroControllerTest.class
+com\github\petervl80\acervoapi\controller\UsuarioControllerTest.class
 com\github\petervl80\acervoapi\controller\mappers\LivroMapperTest.class
 com\github\petervl80\acervoapi\validator\LivroValidatorTest.class
 com\github\petervl80\acervoapi\controller\common\GlobalExceptionHandlerTest.class

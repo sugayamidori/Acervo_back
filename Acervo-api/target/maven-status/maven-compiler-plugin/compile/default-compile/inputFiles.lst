@@ -23,6 +23,7 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\ClientController.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\LivroController.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\config\DatabaseConfiguration.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\LoginResponse.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\OperecaoNaoPermitidaException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\config\AuthorizationServerConfiguration.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\GenericController.java
@@ -33,7 +34,6 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\config\SecurityConfiguration.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\UsuarioController.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\PagamentoController.java
-C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\LoginViewController.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\validator\ClientValidator.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\StatusMulta.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\specs\LivroSpecs.java
@@ -47,6 +47,7 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\MultaRepository.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\ClientDTO.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\PagamentoStatus.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\OAuthTokenResponse.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\ErroResposta.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\specs\UsuarioSpecs.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\mappers\EmprestimoMapper.java

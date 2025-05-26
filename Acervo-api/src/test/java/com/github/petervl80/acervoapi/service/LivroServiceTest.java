@@ -59,7 +59,7 @@ class LivroServiceTest {
         livro.setDataAtualizacao(LocalDateTime.now());
 
         usuario = new Usuario();
-        usuario.setLogin("pedro");
+        usuario.setNome("pedro");
         usuario.setEmail("pedro@gmail.com");
         livro.setUsuario(usuario);
     }

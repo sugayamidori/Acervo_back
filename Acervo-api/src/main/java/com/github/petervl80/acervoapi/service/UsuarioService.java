@@ -44,26 +44,26 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
-    public Usuario obterPorLogin(String login) {
-        return repository.findByLogin(login);
+    public Usuario obterPorNome(String nome) {
+        return repository.findByNome(nome);
     }
 
     public Usuario obterPorEmail(String email) {
         return repository.findByEmail(email);
     }
 
-    public List<Usuario> pesquisa(String login, String role) {
-        String loginFiltro = login;
+    public List<Usuario> pesquisa(String nome, String role) {
+        String nomeFiltro = nome;
         String[] roleFiltro;
 
-        if(login != null && role != null) {
-            loginFiltro = login + "%";
+        if(nome != null && role != null) {
+            nomeFiltro = nome + "%";
             roleFiltro = new String[]{role.toUpperCase()};
-            return repository.findByLoginAndRoles(loginFiltro, roleFiltro);
+            return repository.findByNomeAndRoles(nomeFiltro, roleFiltro);
         }
 
-        if(login != null) {
-            return repository.findByLoginStartingWithIgnoreCase(loginFiltro);
+        if(nome != null) {
+            return repository.findByNomeStartingWithIgnoreCase(nomeFiltro);
         }
 
         if (role != null) {

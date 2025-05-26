@@ -31,7 +31,7 @@ class UsuarioMapperTest {
         Usuario usuario = mapper.toEntity(dto);
 
         assertNotNull(usuario);
-        assertEquals(dto.login(), usuario.getLogin());
+        assertEquals(dto.nome(), usuario.getNome());
         assertEquals(dto.senha(), usuario.getSenha());
         assertEquals(dto.email(), usuario.getEmail());
         assertEquals(dto.roles(), usuario.getRoles());
@@ -46,7 +46,7 @@ class UsuarioMapperTest {
         Usuario usuario = mapper.toEntity(dto);
 
         assertNotNull(usuario);
-        assertEquals(dto.login(), usuario.getLogin());
+        assertEquals(dto.nome(), usuario.getNome());
         assertEquals(dto.senha(), usuario.getSenha());
         assertEquals(dto.email(), usuario.getEmail());
     }
@@ -54,7 +54,7 @@ class UsuarioMapperTest {
     @Test
     void deveConverterUsuarioParaUsuarioDTO() {
         Usuario usuario = new Usuario();
-        usuario.setLogin("teste");
+        usuario.setNome("teste");
         usuario.setSenha("teste123");
         usuario.setEmail("teste@gmail.com");
         usuario.setRoles(List.of("TESTE"));
@@ -62,7 +62,7 @@ class UsuarioMapperTest {
         UsuarioDTO dto = mapper.toDTO(usuario);
 
         assertNotNull(usuario);
-        assertEquals(usuario.getLogin(), dto.login());
+        assertEquals(usuario.getNome(), dto.nome());
         assertEquals(usuario.getSenha(), dto.senha());
         assertEquals(usuario.getEmail(), dto.email());
         assertEquals(usuario.getRoles(), dto.roles());
@@ -71,7 +71,7 @@ class UsuarioMapperTest {
     @Test
     void deveConverterUsuarioParaResultadoPesquisaUsuarioDTO() {
         Usuario usuario = new Usuario();
-        usuario.setLogin("teste");
+        usuario.setNome("teste");
         usuario.setSenha("teste123");
         usuario.setEmail("teste@gmail.com");
         usuario.setRoles(List.of("TESTE"));
@@ -79,7 +79,7 @@ class UsuarioMapperTest {
         ResultadoPesquisaUsuarioDTO dto = mapper.toResultadoDTO(usuario);
 
         assertNotNull(usuario);
-        assertEquals(usuario.getLogin(), dto.login());
+        assertEquals(usuario.getNome(), dto.nome());
         assertEquals(usuario.getEmail(), dto.email());
         assertEquals(usuario.getRoles(), dto.roles());
     }

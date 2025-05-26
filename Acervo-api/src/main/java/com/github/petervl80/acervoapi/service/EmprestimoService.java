@@ -30,7 +30,7 @@ public class EmprestimoService {
     private static final BigDecimal VALOR_MULTA_POR_DIA = new BigDecimal("2.50");
 
     public Emprestimo registrarEmprestimo(UUID idLivro, UUID idUsuario) {
-        Usuario usuario = usuarioRepository.findByLogin("testeMember");
+        Usuario usuario = usuarioRepository.findByNome("testeMember");
         Livro livro = livroRepository.findById(idLivro).orElseThrow();
 
         Emprestimo emprestimo = new Emprestimo();
@@ -113,7 +113,7 @@ public class EmprestimoService {
             return EmprestimoListagemDTO.builder()
                     .id(emprestimo.getId())
                     .livroTitulo(emprestimo.getLivro().getTitulo())
-                    .usuarioNome(emprestimo.getMembro().getLogin())
+                    .usuarioNome(emprestimo.getMembro().getNome())
                     .dataDevolucao(emprestimo.getDataDevolucao())
                     .diasAtraso(diasAtraso)
                     .valorMulta(valorMulta)

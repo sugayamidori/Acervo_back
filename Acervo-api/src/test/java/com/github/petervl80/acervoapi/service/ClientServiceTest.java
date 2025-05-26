@@ -58,7 +58,7 @@ class ClientServiceTest {
         client.setRedirectURI("http://localhost/oauth2/callback");
 
         usuario = new Usuario();
-        usuario.setLogin("user");
+        usuario.setNome("user");
         usuario.setSenha("user-password");
         usuario.setEmail("user@user.com");
         usuario.setRoles(List.of("USER"));

@@ -11,12 +11,12 @@ import java.util.UUID;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpecificationExecutor<Usuario> {
 
-    Usuario findByLogin(String login);
+    Usuario findByNome(String nome);
 
     Usuario findByEmail(String email);
 
-    @Query("SELECT u FROM Usuario u WHERE LOWER(u.login) LIKE LOWER(CONCAT(:login, '%'))")
-    List<Usuario> findByLoginStartingWithIgnoreCase(@Param("login") String login);
+    @Query("SELECT u FROM Usuario u WHERE LOWER(u.nome) LIKE LOWER(CONCAT(:nome, '%'))")
+    List<Usuario> findByNomeStartingWithIgnoreCase(@Param("nome") String login);
 
     @Query(value = """
     SELECT * FROM usuario u
@@ -26,11 +26,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
 
     @Query(value = """
     SELECT * FROM usuario u
-    WHERE u.login ILIKE :login
+    WHERE u.nome ILIKE :nome
       AND u.roles && :roles
     """, nativeQuery = true)
-    List<Usuario> findByLoginAndRoles(
-            @Param("login") String login,
+    List<Usuario> findByNomeAndRoles(
+            @Param("nome") String login,
             @Param("roles") String[] roles
     );
 }

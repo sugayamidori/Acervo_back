@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UsuarioMembroDTO(
         @NotBlank(message = "Campo obrigatório")
-        String login,
+        String nome,
         @NotBlank(message = "Campo obrigatório")
         String senha,
         @Email (message = "inválido")
