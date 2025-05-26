@@ -1,18 +1,17 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
+import com.github.petervl80.acervoapi.validator.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.github.petervl80.acervoapi.repository.specs.UsuarioSpecs.*;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,26 +19,29 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder encoder;
+    private final UsuarioValidator validator;
 
-    public void salvarMembro(Usuario usuario) {
+    public Optional<Usuario> obterPorId(UUID id) {
+        return repository.findById(id);
+    }
+
+    public void deletar(Usuario usuario) {
+        repository.delete(usuario);
+    }
+
+    public Usuario salvarMembro(Usuario usuario) {
+        validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
         usuario.setRoles(List.of("MEMBRO"));
-        repository.save(usuario);
+        return repository.save(usuario);
     }
 
-    public void salvarAdministrador(Usuario usuario) {
+    public Usuario salvarUsuario(Usuario usuario) {
+        validator.validar(usuario);
         var senha = usuario.getSenha();
         usuario.setSenha(encoder.encode(senha));
-        usuario.setRoles(List.of("ADMINISTRADOR"));
-        repository.save(usuario);
-    }
-
-    public void salvarBibliotecario(Usuario usuario) {
-        var senha = usuario.getSenha();
-        usuario.setSenha(encoder.encode(senha));
-        usuario.setRoles(List.of("BIBLIOTECARIO"));
-        repository.save(usuario);
+        return repository.save(usuario);
     }
 
     public Usuario obterPorLogin(String login) {
@@ -50,19 +52,50 @@ public class UsuarioService {
         return repository.findByEmail(email);
     }
 
-    public Page<Usuario> pesquisa(String nome, String role, Integer pagina, Integer tamanhoPagina) {
+    public List<Usuario> pesquisa(String login, String role) {
+        String loginFiltro = login;
+        String[] roleFiltro;
 
-        Specification<Usuario> specs = (root, query, cb) -> cb.conjunction();
-
-        if(nome != null) {
-            specs = specs.and(nomeLike(nome));
+        if(login != null && role != null) {
+            loginFiltro = login + "%";
+            roleFiltro = new String[]{role.toUpperCase()};
+            return repository.findByLoginAndRoles(loginFiltro, roleFiltro);
         }
 
-        if(role != null) {
-            specs.and(roleLike(role));
+        if(login != null) {
+            return repository.findByLoginStartingWith(loginFiltro);
         }
-        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
 
-        return repository.findAll(specs, pageRequest);
+        if (role != null) {
+            roleFiltro = new String[]{role.toUpperCase()};
+            return repository.findByRole(roleFiltro);
+        }
+
+        return null;
+    }
+
+    public Usuario autenticar(UsuarioDTO dto) {
+        String email = dto.email();
+        String senhaDigitada = dto.senha();
+
+        Usuario usuarioEncontrado = obterPorEmail(email);
+
+        if (usuarioEncontrado == null) {
+            throw getErroUsuarioNaoEncontrado();
+        }
+
+        String senhaCriptografada = usuarioEncontrado.getSenha();
+
+        boolean senhasBatem = encoder.matches(senhaDigitada, senhaCriptografada);
+
+        if (senhasBatem) {
+            return usuarioEncontrado;
+        }
+
+        throw getErroUsuarioNaoEncontrado();
+    }
+
+    private static UsernameNotFoundException getErroUsuarioNaoEncontrado() {
+        return new UsernameNotFoundException("Usuário e/ou senha incorretos");
     }
 }

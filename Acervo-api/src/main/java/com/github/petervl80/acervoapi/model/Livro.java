@@ -2,12 +2,12 @@ package com.github.petervl80.acervoapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,7 +15,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "livro")
 @Data
-@ToString(exclude = "autor")
 @EntityListeners(AuditingEntityListener.class)
 public class Livro {
 
@@ -30,6 +29,9 @@ public class Livro {
     @Column(name = "titulo", length = 150, nullable = false)
     private String titulo;
 
+    @Column(name = "sumario")
+    private String sumario;
+
     @Column(name = "data_publicacao")
     private LocalDate dataPublicacao;
 
@@ -37,12 +39,15 @@ public class Livro {
     @Column(name = "genero", length = 30, nullable = false)
     private GeneroLivro genero;
 
-    @ManyToOne(
-            //cascade = CascadeType.ALL
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "id_autor")
-    private Autor autor;
+    @Column(name = "autor")
+    private String autor;
+
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "status")
+    private DisponibilidadeEnum status;
+
+    @Column(name = "imagem")
+    private byte[] imagem;
 
     @CreatedDate
     @Column(name = "data_cadastro")

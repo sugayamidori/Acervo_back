@@ -8,12 +8,12 @@ import com.github.petervl80.acervoapi.model.Livro;
 import com.github.petervl80.acervoapi.service.LivroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -53,26 +53,22 @@ public class LivroController implements GenericController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResultadoPesquisaLivroDTO>> pesquisar(
+    public ResponseEntity<List<ResultadoPesquisaLivroDTO>> pesquisar(
             @RequestParam(value = "isbn", required = false)
             String isbn,
             @RequestParam(value = "titulo", required = false)
             String titulo,
             @RequestParam(value = "nomeAutor", required = false)
-            String nomeAutor,
+            String autor,
             @RequestParam(value = "genero", required = false)
             GeneroLivro genero,
             @RequestParam(value = "anoPublicacao", required = false)
-            Integer anoPublicacao,
-            @RequestParam(value = "pagina", defaultValue = "0")
-            Integer pagina,
-            @RequestParam(value = "tamanhoPagina", defaultValue = "10")
-            Integer tamanhoPagina
+            Integer anoPublicacao
 
     ) {
-        Page<Livro> paginaResultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anoPublicacao, pagina, tamanhoPagina);
+        List<Livro> resultados = service.pesquisa(isbn, titulo, autor, genero, anoPublicacao);
 
-        Page<ResultadoPesquisaLivroDTO> resultado = paginaResultado.map(mapper::toDTO);
+        List<ResultadoPesquisaLivroDTO> resultado = resultados.stream().map(mapper::toDTO).toList();
 
         return ResponseEntity.ok(resultado);
     }
@@ -90,6 +86,9 @@ public class LivroController implements GenericController {
                     livro.setGenero(entidadeAux.getGenero());
                     livro.setTitulo(entidadeAux.getTitulo());
                     livro.setAutor(entidadeAux.getAutor());
+                    livro.setSumario(entidadeAux.getSumario());
+                    livro.setStatus(entidadeAux.getStatus());
+                    livro.setImagem(entidadeAux.getImagem());
 
                     service.atualizar(livro);
 

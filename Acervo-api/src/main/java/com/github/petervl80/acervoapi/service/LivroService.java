@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.github.petervl80.acervoapi.model.DisponibilidadeEnum;
 import com.github.petervl80.acervoapi.model.GeneroLivro;
 import com.github.petervl80.acervoapi.model.Livro;
 import com.github.petervl80.acervoapi.model.Usuario;
@@ -7,12 +8,10 @@ import com.github.petervl80.acervoapi.repository.LivroRepository;
 import com.github.petervl80.acervoapi.security.SecurityService;
 import com.github.petervl80.acervoapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +29,7 @@ public class LivroService {
         validator.validar(livro);
         Usuario usuario = securityService.obterUsuarioLogado();
         livro.setUsuario(usuario);
+        livro.setStatus(DisponibilidadeEnum.DISPONIVEL);
         return repository.save(livro);
     }
 
@@ -41,14 +41,12 @@ public class LivroService {
         repository.delete(livro);
     }
 
-    public Page<Livro> pesquisa(
+    public List<Livro> pesquisa(
             String isbn,
             String titulo,
-            String nomeAutor,
+            String autor,
             GeneroLivro genero,
-            Integer anoPublicacao,
-            Integer pagina,
-            Integer tamanhoPagina
+            Integer anoPublicacao
     ) {
 
         Specification<Livro> specs = (root, query, cb) -> cb.conjunction();
@@ -69,18 +67,16 @@ public class LivroService {
             specs = specs.and(anoPublicacaoEqual(anoPublicacao));
         }
 
-        if(nomeAutor != null) {
-            specs= specs.and(nomeAutorLike(nomeAutor));
+        if(autor != null) {
+            specs= specs.and(autorLike(autor));
         }
 
-        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
-
-        return repository.findAll(specs, pageRequest);
+        return repository.findAll(specs);
     }
 
     public void atualizar(Livro livro) {
         if(livro.getId() == null) {
-            throw new IllegalArgumentException("Autor não cadastrado");
+            throw new IllegalArgumentException("Livro não cadastrado");
         }
 
         validator.validar(livro);

@@ -2,6 +2,7 @@ package com.github.petervl80.acervoapi.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ public record UsuarioDTO(
         String senha,
         @Email (message = "inválido")
         @NotBlank(message = "Campo obrigatório")
-        String email) {
+        String email,
+        @NotEmpty(message = "Campo obrigatório")
+        List<String> roles) {
 }

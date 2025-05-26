@@ -50,6 +50,6 @@ public class CustomAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return this.usuario.getLogin();
+        return this.usuario.getEmail();
     }
 }

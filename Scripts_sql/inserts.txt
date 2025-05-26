@@ -10,3 +10,13 @@ insert into client
 (id, client_id, client_secret, redirect_uri, scope)
 values
 ( uuid_generate_v4(), 'client-admin', '$2a$12$Wulrksh97aw2JseoyAUrC.PM.Qe2Y4sESUZBjXih/1JByOawQe312','http://localhost:8080/authorized' , 'ADMINISTRADOR');
+
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), 'client-membro', '$2a$12$eyaCyvD7yv60p5iEXgA4uOjJ4YkOc8RtdbUuU54JIcOoqEV0hSMgO','http://localhost:8080/authorized' , 'MEMBRO');
+
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), 'client-bibliotecario', '$2a$12$iFKDevFWIVDrdEqr47v1v.k101y0i/Y7yPXodOfYn07s9siFf/Uym','http://localhost:8080/authorized' , 'BIBLIOTECARIO');
