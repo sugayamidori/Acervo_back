@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("usuarios")
@@ -71,27 +70,6 @@ public class UsuarioController implements GenericController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
         }
-
-    }
-
-    @GetMapping("{id}")
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
-    public ResponseEntity<ResultadoPesquisaUsuarioDTO> buscar(@PathVariable String id) {
-        return service.obterPorId(UUID.fromString(id))
-                .map(usuario -> {
-                    ResultadoPesquisaUsuarioDTO dto = mapper.toResultadoDTO(usuario);
-                    return ResponseEntity.ok(dto);
-                }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public ResponseEntity<Object> deletar(@PathVariable String id) {
-        return service.obterPorId(UUID.fromString(id))
-                .map(usuario -> {
-                service.deletar(usuario);
-                return ResponseEntity.noContent().build();
-                }).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 }

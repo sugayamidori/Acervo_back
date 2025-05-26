@@ -15,6 +15,7 @@ services:
       - GOOGLE_CLIENT_SECRET=client_secret
       - SPRING_PROFILES_ACTIVE=default
       - TZ=America/Sao_Paulo
+      - MERCADO_PAGO_TOKEN:TEST-6817096861883625-052120-fafb78569ec128ca185d5f86b9cee0a9-594803070
 
 volumes:
   postgres_data:

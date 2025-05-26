@@ -1,22 +1,27 @@
 package com.github.petervl80.acervoapi.controller.mappers;
 
+import com.github.petervl80.acervoapi.controller.dto.AutorDTO;
 import com.github.petervl80.acervoapi.controller.dto.CadastroLivroDTO;
 import com.github.petervl80.acervoapi.controller.dto.ResultadoPesquisaLivroDTO;
-import com.github.petervl80.acervoapi.model.DisponibilidadeEnum;
 import com.github.petervl80.acervoapi.model.GeneroLivro;
 import com.github.petervl80.acervoapi.model.Livro;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-25T15:46:20-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.3 (Oracle Corporation)"
+    date = "2025-05-24T11:50:16-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
-public class LivroMapperImpl implements LivroMapper {
+public class LivroMapperImpl extends LivroMapper {
+
+    @Autowired
+    private AutorMapper autorMapper;
 
     @Override
     public Livro toEntity(CadastroLivroDTO dto) {
@@ -26,13 +31,12 @@ public class LivroMapperImpl implements LivroMapper {
 
         Livro livro = new Livro();
 
-        livro.setImagem( base64ToBytes( dto.imagem() ) );
         livro.setIsbn( dto.isbn() );
         livro.setTitulo( dto.titulo() );
-        livro.setSumario( dto.sumario() );
         livro.setDataPublicacao( dto.dataPublicacao() );
         livro.setGenero( dto.genero() );
-        livro.setAutor( dto.autor() );
+
+        livro.setAutor( autorRepository.findById(dto.idAutor()).orElse(null) );
 
         return livro;
     }
@@ -43,27 +47,23 @@ public class LivroMapperImpl implements LivroMapper {
             return null;
         }
 
-        String imagem = null;
         UUID id = null;
         String isbn = null;
         String titulo = null;
         LocalDate dataPublicacao = null;
         GeneroLivro genero = null;
-        String autor = null;
-        String sumario = null;
-        DisponibilidadeEnum status = null;
+        AutorDTO autor = null;
 
-        imagem = bytesToBase64( livro.getImagem() );
         id = livro.getId();
         isbn = livro.getIsbn();
         titulo = livro.getTitulo();
         dataPublicacao = livro.getDataPublicacao();
         genero = livro.getGenero();
-        autor = livro.getAutor();
-        sumario = livro.getSumario();
-        status = livro.getStatus();
+        autor = autorMapper.toDTO( livro.getAutor() );
 
-        ResultadoPesquisaLivroDTO resultadoPesquisaLivroDTO = new ResultadoPesquisaLivroDTO( id, isbn, titulo, dataPublicacao, genero, autor, sumario, status, imagem );
+        BigDecimal preco = null;
+
+        ResultadoPesquisaLivroDTO resultadoPesquisaLivroDTO = new ResultadoPesquisaLivroDTO( id, isbn, titulo, dataPublicacao, genero, preco, autor );
 
         return resultadoPesquisaLivroDTO;
     }

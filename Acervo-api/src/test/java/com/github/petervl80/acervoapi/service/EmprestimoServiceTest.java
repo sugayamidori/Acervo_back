@@ -81,7 +81,7 @@ class EmprestimoServiceTest {
 
         // Assert
         assertNotNull(emprestimo);
-        assertEquals(StatusEmprestimo.ATIVO, emprestimo.getStatus());
+        assertEquals(StatusEmprestimo.RESERVADO, emprestimo.getStatus());
         assertEquals("Livro de Teste", emprestimo.getLivro().getTitulo());
         assertEquals(membro.getId(), emprestimo.getMembro().getId());
         assertEquals(bibliotecario.getLogin(), emprestimo.getRegistradoPor().getLogin());
