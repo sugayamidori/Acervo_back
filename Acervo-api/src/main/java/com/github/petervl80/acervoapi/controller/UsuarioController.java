@@ -1,8 +1,6 @@
 package com.github.petervl80.acervoapi.controller;
 
-import com.github.petervl80.acervoapi.controller.dto.ResultadoPesquisaUsuarioDTO;
-import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
-import com.github.petervl80.acervoapi.controller.dto.UsuarioMembroDTO;
+import com.github.petervl80.acervoapi.controller.dto.*;
 import com.github.petervl80.acervoapi.controller.mappers.UsuarioMapper;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.service.ClientService;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("usuarios")
@@ -62,13 +59,20 @@ public class UsuarioController implements GenericController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto) {
+    public ResponseEntity<LoginResponse> login(@RequestBody UsuarioDTO dto) {
         try {
             Usuario usuario = service.autenticar(dto);
-            String token = clientService.getTokenFromOAuth(usuario);
-            return ResponseEntity.ok(token);
+            OAuthTokenResponse token = clientService.getTokenFromOAuth(usuario);
+
+            LoginResponse response = new LoginResponse(
+                    usuario.getId(),
+                    token.access_token(),
+                    token.scope(),
+                    token.token_type(),
+                    token.expires_in());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
     }

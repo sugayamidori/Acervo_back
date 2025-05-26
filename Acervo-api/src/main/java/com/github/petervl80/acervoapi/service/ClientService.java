@@ -1,5 +1,8 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.petervl80.acervoapi.controller.dto.OAuthTokenResponse;
 import com.github.petervl80.acervoapi.model.Client;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.ClientRepository;
@@ -36,7 +39,7 @@ public class ClientService {
         return repository.findByClientId(clientId);
     }
 
-    public String getTokenFromOAuth(Usuario usuario) {
+    public OAuthTokenResponse getTokenFromOAuth(Usuario usuario) throws JsonProcessingException {
         String context = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .build()
@@ -58,6 +61,10 @@ public class ClientService {
 
         ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, request, String.class);
 
-        return response.getBody();
+        String tokenJson = response.getBody();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.readValue(tokenJson, OAuthTokenResponse.class);
     }
 }

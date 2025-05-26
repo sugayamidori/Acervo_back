@@ -6,12 +6,13 @@ import com.github.petervl80.acervoapi.controller.dto.UsuarioMembroDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-26T10:53:48-0300",
+    date = "2025-05-26T15:45:37-0300",
     comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.6 (Oracle Corporation)"
 )
 @Component
@@ -81,10 +82,12 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
+        UUID id = null;
         String login = null;
         String email = null;
         List<String> roles = null;
 
+        id = usuario.getId();
         login = usuario.getLogin();
         email = usuario.getEmail();
         List<String> list = usuario.getRoles();
@@ -92,7 +95,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             roles = new ArrayList<String>( list );
         }
 
-        ResultadoPesquisaUsuarioDTO resultadoPesquisaUsuarioDTO = new ResultadoPesquisaUsuarioDTO( login, email, roles );
+        ResultadoPesquisaUsuarioDTO resultadoPesquisaUsuarioDTO = new ResultadoPesquisaUsuarioDTO( id, login, email, roles );
 
         return resultadoPesquisaUsuarioDTO;
     }

@@ -1,9 +1,12 @@
 package com.github.petervl80.acervoapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.petervl80.acervoapi.controller.dto.OAuthTokenResponse;
 import com.github.petervl80.acervoapi.model.Client;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.ClientRepository;
 import com.github.petervl80.acervoapi.validator.ClientValidator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -100,16 +103,20 @@ class ClientServiceTest {
             when(builder.build()).thenReturn(ServletUriComponentsBuilder.fromUriString(context).build());
 
             String expectedToken = "mocked-token";
-            ResponseEntity<String> responseEntity = ResponseEntity.ok(expectedToken);
+            String jsonResponse = String.format("{\"access_token\":\"%s\"}", expectedToken);
+
+            ResponseEntity<String> responseEntity = ResponseEntity.ok(jsonResponse);
             when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(String.class)))
                     .thenReturn(responseEntity);
 
-            String token = service.getTokenFromOAuth(usuario);
+            OAuthTokenResponse token = service.getTokenFromOAuth(usuario);
 
-            assertEquals(expectedToken, token);
+            assertEquals(expectedToken, token.access_token());
 
             verify(repository).findByScopeInAndRedirectURIContaining(usuario.getRoles(), context);
             verify(restTemplate).postForEntity(eq(context + "/oauth2/token"), any(HttpEntity.class), eq(String.class));
+        } catch (JsonProcessingException e) {
+            Assertions.fail("Erro de processamento de JSON: " + e.getMessage());
         }
     }
 }
