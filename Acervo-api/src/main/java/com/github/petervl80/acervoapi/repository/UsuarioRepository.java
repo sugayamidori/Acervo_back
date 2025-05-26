@@ -15,7 +15,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
 
     Usuario findByEmail(String email);
 
-    List<Usuario> findByLoginStartingWith(String login);
+    @Query("SELECT u FROM Usuario u WHERE LOWER(u.login) LIKE LOWER(CONCAT(:login, '%'))")
+    List<Usuario> findByLoginStartingWithIgnoreCase(@Param("login") String login);
 
     @Query(value = """
     SELECT * FROM usuario u

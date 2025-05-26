@@ -63,7 +63,7 @@ public class UsuarioService {
         }
 
         if(login != null) {
-            return repository.findByLoginStartingWith(loginFiltro);
+            return repository.findByLoginStartingWithIgnoreCase(loginFiltro);
         }
 
         if (role != null) {
