@@ -85,6 +85,7 @@ Configure as seguintes variáveis de ambiente na sua IDE ou terminal antes de ro
 DATASOURCE_URL=jdbc:postgresql://localhost:5432/acervo
 DATASOURCE_USERNAME=postgres
 DATASOURCE_PASSWORD=postgres
+MERCADO_PAGO_TOKEN=token
 ```
 
 ### 🔐 (Opcional) Login com Google
