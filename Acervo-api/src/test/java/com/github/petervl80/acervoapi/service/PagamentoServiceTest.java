@@ -1,33 +1,33 @@
 package com.github.petervl80.acervoapi.service;
 
-import com.github.petervl80.acervoapi.controller.dto.DocumentoIdentificacaoDTO;
-import com.github.petervl80.acervoapi.controller.dto.PagadorDTO;
 import com.github.petervl80.acervoapi.controller.dto.PagamentoRequestDTO;
-import com.github.petervl80.acervoapi.model.*;
+import com.github.petervl80.acervoapi.exceptions.ResourceNotFoundException;
+import com.github.petervl80.acervoapi.model.Emprestimo;
+import com.github.petervl80.acervoapi.model.Multa;
+import com.github.petervl80.acervoapi.model.StatusMulta;
 import com.github.petervl80.acervoapi.repository.EmprestimoRepository;
 import com.github.petervl80.acervoapi.repository.MultaRepository;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.client.payment.PaymentCreateRequest;
-import com.mercadopago.core.MPRequestOptions;
-import com.mercadopago.exceptions.MPApiException;
-import com.mercadopago.resources.payment.Payment;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Spy;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Random;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class PagamentoServiceTest {
-
-    @InjectMocks
-    private PagamentoService pagamentoService;
+@ExtendWith(MockitoExtension.class)
+public class PagamentoServiceTest {
 
     @Mock
     private EmprestimoRepository emprestimoRepository;
@@ -36,147 +36,170 @@ class PagamentoServiceTest {
     private MultaRepository multaRepository;
 
     @Mock
-    private PaymentClient paymentClient;
+    private Random mockRandom;
+
+    @InjectMocks
+    private PagamentoService pagamentoService;
+
+    private UUID emprestimoId;
+    private Emprestimo emprestimo;
+    private Multa multaPendente;
 
     @BeforeEach
-    void setup() throws Exception {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
 
-        Field tokenField = PagamentoService.class.getDeclaredField("mercadoPagoToken");
-        tokenField.setAccessible(true);
-        tokenField.set(pagamentoService, "test_token");
+        emprestimoId = UUID.randomUUID();
+
+        multaPendente = Multa.builder()
+                .id(UUID.randomUUID())
+                .valor(BigDecimal.valueOf(10.50))
+                .status(StatusMulta.PENDENTE)
+                .dataGeracao(LocalDate.now().minusDays(5))
+                .build();
+
+        emprestimo = Emprestimo.builder()
+                .id(emprestimoId)
+                .multa(multaPendente)
+                .build();
+
+        multaPendente.setEmprestimo(emprestimo);
     }
 
     @Test
-    void realizarPagamentoComMercadoPago_deveRealizarPagamentoComSucesso() throws Exception {
-        UUID emprestimoId = UUID.randomUUID();
-        Emprestimo emprestimo = new Emprestimo();
-        Multa multa = new Multa();
-        multa.setValor(new BigDecimal("10.00"));
+    @DisplayName("Deve processar pagamento com sucesso (status APROVADO)")
+    void deveProcessarPagamentoComSucesso() {
+        PagamentoRequestDTO request = new PagamentoRequestDTO("CARTAO", true); // Sucesso
+        when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
+        when(multaRepository.save(any(Multa.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        emprestimo.setMulta(multa);
+        Multa result = pagamentoService.processamentoPagamentoMulta(emprestimoId, request);
+
+        assertNotNull(result);
+        assertEquals(StatusMulta.PAGA, result.getStatus());
+        assertEquals("approved", result.getStatusPagamento());
+        assertNotNull(result.getMercadoPagoPaymentId());
+        assertNotNull(result.getDataPagamento());
+        assertEquals(LocalDate.now(), result.getDataPagamento());
+        assertNull(result.getLinkPagamento());
+        assertNull(result.getQrCodeBase64());
+        assertNull(result.getQrCodeText());
+        assertEquals("CARTAO", result.getMetodoPagamento());
+
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, times(1)).save(any(Multa.class));
+    }
+
+    @Test
+    @DisplayName("Deve processar pagamento com falha (status REJEITADA)")
+    void deveProcessarPagamentoComFalha() {
+
+        PagamentoRequestDTO request = new PagamentoRequestDTO("BOLETO", false); // Falha
+        when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
+        when(multaRepository.save(any(Multa.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Multa result = pagamentoService.processamentoPagamentoMulta(emprestimoId, request);
+
+        assertNotNull(result);
+        assertEquals(StatusMulta.REJEITADA, result.getStatus());
+        assertEquals("rejected", result.getStatusPagamento());
+        assertNotNull(result.getMercadoPagoPaymentId());
+        assertNull(result.getDataPagamento());
+        assertNull(result.getLinkPagamento());
+        assertNull(result.getQrCodeBase64());
+        assertNull(result.getQrCodeText());
+        assertEquals("BOLETO", result.getMetodoPagamento());
+
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, times(1)).save(any(Multa.class));
+    }
+
+    @Test
+    @DisplayName("Deve processar pagamento PIX pendente (status PENDENTE com QR Code)")
+    void deveProcessarPagamentoPixPendente() {
+
+        PagamentoRequestDTO request = new PagamentoRequestDTO("PIX", null); // Simulação aleatória
+        when(mockRandom.nextInt(100)).thenReturn(85); // Valor entre 80 e 94 (inclusive)
 
         when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
-
-        // Mock para Payment usando RETURNS_DEEP_STUBS para lidar com métodos aninhados
-        // Não precisamos mockar PaymentPointOfInteraction ou PaymentTransactionData explicitamente
-        Payment payment = mock(Payment.class, RETURNS_DEEP_STUBS);
-
-        when(payment.getId()).thenReturn(123456L);
-        when(payment.getPaymentMethodId()).thenReturn("pix");
-
-        // Configura os dados específicos do PIX através do mock "profundo"
-        when(payment.getPointOfInteraction().getTransactionData().getQrCodeBase64()).thenReturn("base64_qr_code");
-        when(payment.getPointOfInteraction().getTransactionData().getQrCode()).thenReturn("text_qr_code");
-        when(payment.getPointOfInteraction().getTransactionData().getTicketUrl()).thenReturn("http://ticket.url/123");
+        when(multaRepository.save(any(Multa.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
 
-        when(paymentClient.create(any(PaymentCreateRequest.class), any(MPRequestOptions.class))).thenReturn(payment);
+        Multa result = pagamentoService.processamentoPagamentoMulta(emprestimoId, request);
 
-        DocumentoIdentificacaoDTO doc = new DocumentoIdentificacaoDTO("CPF", "12345678900");
-        PagadorDTO pagador = new PagadorDTO("User", "Test", "user@teste.com", doc);
-        PagamentoRequestDTO requestDTO = new PagamentoRequestDTO(
-                new BigDecimal("10.00"),
-                "token-teste",
-                "pix",
-                1,
-                "Multa Teste",
-                pagador
-        );
+        assertNotNull(result);
+        assertEquals(StatusMulta.PENDENTE, result.getStatus());
+        assertEquals("pending", result.getStatusPagamento());
+        assertNotNull(result.getMercadoPagoPaymentId());
+        assertNull(result.getDataPagamento());
+        assertNotNull(result.getLinkPagamento());
+        assertNotNull(result.getQrCodeBase64());
+        assertNotNull(result.getQrCodeText());
+        assertEquals("PIX", result.getMetodoPagamento());
 
-        Multa resultado = pagamentoService.realizarPagamentoComMercadoPago(emprestimoId, requestDTO);
-
-        assertThat(resultado.getIdempotencyKey()).isNotNull();
-        assertThat(resultado.getMercadoPagoPaymentId()).isEqualTo("123456");
-        assertThat(resultado.getMetodoPagamento()).isEqualTo("pix");
-        assertThat(resultado.getStatusPagamento()).isEqualTo("pending");
-        assertThat(resultado.getStatus()).isEqualTo(StatusMulta.PENDENTE);
-
-        // Assertions adicionais para os dados do PIX
-        assertThat(resultado.getQrCodeBase64()).isEqualTo("base64_qr_code");
-        assertThat(resultado.getQrCodeText()).isEqualTo("text_qr_code");
-        assertThat(resultado.getLinkPagamento()).isEqualTo("http://ticket.url/123");
-
-
-        // Salva duas vezes: idempotencyKey e dados finais
-        verify(multaRepository, times(2)).save(multa);
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, times(1)).save(any(Multa.class));
     }
 
     @Test
-    void realizarPagamentoComMercadoPago_quandoNaoTemMulta_deveLancarExcecao() {
-        UUID emprestimoId = UUID.randomUUID();
-        Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setMulta(null);
-
-        when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
-
-        DocumentoIdentificacaoDTO doc = new DocumentoIdentificacaoDTO("CPF", "12345678900");
-        PagadorDTO pagador = new PagadorDTO("User", "Test", "user@teste.com", doc);
-        PagamentoRequestDTO requestDTO = new PagamentoRequestDTO(
-                new BigDecimal("10.00"),
-                "token-teste",
-                "pix",
-                1,
-                "Multa Teste",
-                pagador
-        );
-
-        assertThatThrownBy(() -> pagamentoService.realizarPagamentoComMercadoPago(emprestimoId, requestDTO))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Este empréstimo não possui multa pendente.");
-    }
-
-    @Test
-    void realizarPagamentoComMercadoPago_quandoEmprestimoNaoEncontrado_deveLancarExcecao() {
-        UUID emprestimoId = UUID.randomUUID();
-
+    @DisplayName("Deve lançar ResourceNotFoundException se Empréstimo não for encontrado")
+    void deveLancarResourceNotFoundExceptionSeEmprestimoNaoEncontrado() {
+        PagamentoRequestDTO request = new PagamentoRequestDTO("CARTAO", true);
         when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.empty());
 
-        DocumentoIdentificacaoDTO doc = new DocumentoIdentificacaoDTO("CPF", "12345678900");
-        PagadorDTO pagador = new PagadorDTO("User", "Test", "user@teste.com", doc);
-        PagamentoRequestDTO requestDTO = new PagamentoRequestDTO(
-                new BigDecimal("10.00"),
-                "token-teste",
-                "pix",
-                1,
-                "Multa Teste",
-                pagador
-        );
+        assertThrows(ResourceNotFoundException.class, () ->
+                pagamentoService.processamentoPagamentoMulta(emprestimoId, request));
 
-        assertThatThrownBy(() -> pagamentoService.realizarPagamentoComMercadoPago(emprestimoId, requestDTO))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Empréstimo não encontrado");
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, never()).save(any(Multa.class));
     }
 
     @Test
-    void realizarPagamentoComMercadoPago_quandoErroMercadoPago_deveLancarExcecao() throws Exception {
-        UUID emprestimoId = UUID.randomUUID();
-        Emprestimo emprestimo = new Emprestimo();
-        Multa multa = new Multa();
-        multa.setValor(new BigDecimal("10.00"));
-        emprestimo.setMulta(multa);
+    @DisplayName("Deve lançar ResourceNotFoundException se Multa não for encontrada para o Empréstimo")
+    void deveLancarResourceNotFoundExceptionSeMultaNaoEncontrada() {
+        PagamentoRequestDTO request = new PagamentoRequestDTO("CARTAO", true);
+        Emprestimo emprestimoSemMulta = Emprestimo.builder().id(emprestimoId).multa(null).build();
+        when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimoSemMulta));
 
+        assertThrows(ResourceNotFoundException.class, () ->
+                pagamentoService.processamentoPagamentoMulta(emprestimoId, request));
+
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, never()).save(any(Multa.class));
+    }
+
+    @Test
+    @DisplayName("Não deve processar se Multa já estiver PAGA")
+    void naoDeveProcessarSeMultaJaPaga() {
+        PagamentoRequestDTO request = new PagamentoRequestDTO("CARTAO", true);
+        multaPendente.setStatus(StatusMulta.PAGA); // Mudar status para PAGA
         when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
 
-        MPApiException exception = mock(MPApiException.class);
-        when(exception.getApiResponse()).thenReturn(mock(com.mercadopago.net.MPResponse.class));
-        when(paymentClient.create(any(PaymentCreateRequest.class), any(MPRequestOptions.class))).thenThrow(exception);
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                pagamentoService.processamentoPagamentoMulta(emprestimoId, request));
 
-        DocumentoIdentificacaoDTO doc = new DocumentoIdentificacaoDTO("CPF", "12345678900");
-        PagadorDTO pagador = new PagadorDTO("User", "Test", "user@teste.com", doc);
-        PagamentoRequestDTO requestDTO = new PagamentoRequestDTO(
-                new BigDecimal("10.00"),
-                "token-teste",
-                "pix",
-                1,
-                "Multa Teste",
-                pagador
-        );
+        assertEquals("Multa já paga e não pode ser reprocessada.", exception.getMessage()); // Mensagem atualizada
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, never()).save(any(Multa.class));
+    }
 
-        assertThatThrownBy(() -> pagamentoService.realizarPagamentoComMercadoPago(emprestimoId, requestDTO))
-                .isEqualTo(exception);
+    @Test
+    @DisplayName("Deve processar multa REJEITADA e mudar para status APROVADO")
+    void deveProcessarMultaRejeitadaEStatusAprovado() {
+        multaPendente.setStatus(StatusMulta.REJEITADA);
+        multaPendente.setStatusPagamento("rejected");
+        PagamentoRequestDTO request = new PagamentoRequestDTO("CARTAO", true); // Simular sucesso
 
-        // A primeira chamada ao save (para idempotencyKey) deve ocorrer
-        verify(multaRepository, times(1)).save(multa);
+        when(emprestimoRepository.findById(emprestimoId)).thenReturn(Optional.of(emprestimo));
+        when(multaRepository.save(any(Multa.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Multa result = pagamentoService.processamentoPagamentoMulta(emprestimoId, request);
+
+        assertNotNull(result);
+        assertEquals(StatusMulta.PAGA, result.getStatus());
+        assertEquals("approved", result.getStatusPagamento());
+        assertNotNull(result.getMercadoPagoPaymentId());
+
+        verify(emprestimoRepository, times(1)).findById(emprestimoId);
+        verify(multaRepository, times(1)).save(any(Multa.class));
     }
 }
