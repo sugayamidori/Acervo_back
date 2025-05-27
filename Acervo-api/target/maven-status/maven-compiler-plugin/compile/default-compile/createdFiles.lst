@@ -12,9 +12,9 @@ com\github\petervl80\acervoapi\repository\ClientRepository.class
 com\github\petervl80\acervoapi\service\ClientService.class
 com\github\petervl80\acervoapi\model\StatusEmprestimo.class
 com\github\petervl80\acervoapi\controller\PagamentoController.class
-com\github\petervl80\acervoapi\config\MercadoPagoConfig.class
 com\github\petervl80\acervoapi\controller\dto\ErroCampo.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapper.class
+com\github\petervl80\acervoapi\exceptions\ResourceNotFoundException.class
 com\github\petervl80\acervoapi\validator\UsuarioValidator.class
 com\github\petervl80\acervoapi\security\SecurityService.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapperImpl.class
@@ -47,6 +47,7 @@ com\github\petervl80\acervoapi\model\Client.class
 com\github\petervl80\acervoapi\controller\mappers\EmprestimoMapper.class
 com\github\petervl80\acervoapi\repository\specs\LivroSpecs.class
 com\github\petervl80\acervoapi\model\DisponibilidadeEnum.class
+com\github\petervl80\acervoapi\model\Emprestimo$EmprestimoBuilder.class
 com\github\petervl80\acervoapi\model\PagamentoStatus.class
 com\github\petervl80\acervoapi\controller\dto\UsuarioMembroDTO.class
 com\github\petervl80\acervoapi\security\CustomRegisteredClientRepository.class

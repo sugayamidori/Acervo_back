@@ -2,9 +2,7 @@ package com.github.petervl80.acervoapi.controller.common;
 
 import com.github.petervl80.acervoapi.controller.dto.CadastroLivroDTO;
 import com.github.petervl80.acervoapi.controller.dto.ErroResposta;
-import com.github.petervl80.acervoapi.exceptions.CampoInvalidoException;
-import com.github.petervl80.acervoapi.exceptions.OperecaoNaoPermitidaException;
-import com.github.petervl80.acervoapi.exceptions.RegistroDuplicadoException;
+import com.github.petervl80.acervoapi.exceptions.*;
 import jakarta.validation.Valid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -118,6 +116,28 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(500, resposta.status());
         assertEquals("Ocorreu um erro inesperado. Entre em contato com a administração.", resposta.mensagem());
+        assertTrue(resposta.erros().isEmpty());
+    }
+
+    @Test
+    void handleUsuarioNaoEncontradoExceptionComStatus404() {
+        UsuarioNaoEncontradoException ex = new UsuarioNaoEncontradoException("Usuário não encontrado.");
+
+        ErroResposta resposta = handler.handleUsuarioNaoEncontradoException(ex);
+
+        assertEquals(404, resposta.status());
+        assertEquals("Usuário não encontrado.", resposta.mensagem());
+        assertTrue(resposta.erros().isEmpty());
+    }
+
+    @Test
+    void handleLivroNaoEncontradoExceptionComStatus404() {
+        LivroNaoEncontradoException ex = new LivroNaoEncontradoException("Livro não encontrado.");
+
+        ErroResposta resposta = handler.handleLivroNaoEncontradoException(ex);
+
+        assertEquals(404, resposta.status());
+        assertEquals("Livro não encontrado.", resposta.mensagem());
         assertTrue(resposta.erros().isEmpty());
     }
 }

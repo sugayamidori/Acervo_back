@@ -58,6 +58,7 @@ class ClientServiceTest {
         client.setRedirectURI("http://localhost/oauth2/callback");
 
         usuario = new Usuario();
+        usuario.setId(UUID.randomUUID());
         usuario.setNome("user");
         usuario.setSenha("user-password");
         usuario.setEmail("user@user.com");
@@ -65,7 +66,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void deveSalvarClientComSenhaCriptografada() {
+    void salvarClientComSenhaCriptografada() {
         String senha = client.getClientSecret();
         String senhaCriptografada = "senha-criptografada";
 

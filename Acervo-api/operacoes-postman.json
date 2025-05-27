@@ -1,175 +1,12 @@
 {
 	"info": {
-		"_postman_id": "2b70e4b6-2c05-4199-abcf-c1165d38ab8f",
+		"_postman_id": "36f2bcf6-4b27-4023-821f-194ed80e2f6b",
 		"name": "ACERVO - API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "34675566"
+		"_exporter_id": "34675566",
+		"_collection_link": "https://acervo-5053.postman.co/workspace/Acervo-workspace~8a0c8586-5bbb-4761-96bb-26e3e41426c4/collection/34675566-36f2bcf6-4b27-4023-821f-194ed80e2f6b?action=share&source=collection_link&creator=34675566"
 	},
 	"item": [
-		{
-			"name": "Autores",
-			"item": [
-				{
-					"name": "Salvar",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Tiago\",\r\n    \"dataNascimento\": \"1980-01-01\",\r\n    \"nacionalidade\": \"Brasileira\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/autores",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"autores"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Buscar por id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/autores/0e5ed850-ff19-448d-a294-8fc8c8d91e2d",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"autores",
-								"0e5ed850-ff19-448d-a294-8fc8c8d91e2d"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Filtrar",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/autores?nome=Maria",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"autores"
-							],
-							"query": [
-								{
-									"key": "nome",
-									"value": "Maria"
-								},
-								{
-									"key": "nacionalidade",
-									"value": "Chinês",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Deletar",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/autores/:id",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"autores",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "b838e407-c656-450b-be99-979a0c532076"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Atualizar",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Maria\",\r\n    \"dataNascimento\": \"1998-01-01\",\r\n    \"nacionalidade\": \"Chinês\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/autores/:id",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"autores",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "a316d9ef-d356-4ba5-ae57-bbac24ad1939"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Livros",
 			"item": [
@@ -190,7 +27,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"isbn\": \"9781234567897\",\r\n    \"titulo\": \"Livro do tiago\",\r\n    \"dataPublicacao\": \"2021-02-01\",\r\n    \"genero\": \"FICCAO\",\r\n    \"idAutor\": \"0e5ed850-ff19-448d-a294-8fc8c8d91e2d\"\r\n}",
+							"raw": "{\r\n    \"isbn\": \"9781234567897\",\r\n    \"titulo\": \"The Last of Us: American Dreams\",\r\n    \"dataPublicacao\": \"2020-11-19\",\r\n    \"genero\": \"FICCAO\",\r\n    \"autor\": \"Neil Druckmann\",\r\n    \"sumario\": \"Livro bom\",\r\n    \"imagem\" : \"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\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -269,7 +106,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "8e896e31-ab77-4875-a597-77814946f375"
+									"value": "faa01cfb-90ca-4b35-9531-f5d843a977b7"
 								}
 							]
 						}
@@ -303,7 +140,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "c7daf873-dd8a-40e4-ad6e-9f8778cdd24d"
+									"value": "f8c3f137-b0a8-4d6b-9a77-079ca1b943b1"
 								}
 							]
 						}
@@ -323,7 +160,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseURL}}/livros?pagina=0&tamanhoPagina=1",
+							"raw": "{{baseURL}}/livros",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -355,14 +192,6 @@
 									"key": "dataPublicacao",
 									"value": "",
 									"disabled": true
-								},
-								{
-									"key": "pagina",
-									"value": "0"
-								},
-								{
-									"key": "tamanhoPagina",
-									"value": "1"
 								}
 							]
 						}
@@ -375,13 +204,23 @@
 			"name": "Usuarios",
 			"item": [
 				{
-					"name": "Salvar Membro",
+					"name": "Salvar Usuário",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"membro2\",\r\n    \"senha\": \"membro123\",\r\n    \"email\": \"membro@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"nome\": \"bibliotecario\",\r\n    \"senha\": \"bibliotecario123\",\r\n    \"email\": \"bibliotecario@gmail.com\",\r\n    \"roles\": [\r\n        \"BIBLIOTECARIO\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -401,7 +240,10 @@
 					"response": []
 				},
 				{
-					"name": "Salvar Admin",
+					"name": "Pesquisar",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -413,11 +255,11 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"admin2\",\r\n    \"senha\": \"admin123\",\r\n    \"email\": \"admin2@gmail.com\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -425,20 +267,33 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/usuarios/admins",
+							"raw": "{{baseURL}}/usuarios?nome=me",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"usuarios",
-								"admins"
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "a",
+									"disabled": true
+								},
+								{
+									"key": "nome",
+									"value": "me"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Salvar Bibliotecario",
+					"name": "Obter Detatlhes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -450,11 +305,11 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"login\": \"bibliotecario2\",\r\n    \"senha\": \"bibliotecario123\",\r\n    \"email\": \"bibliotecario2@gmail.com\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -462,13 +317,116 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/usuarios/bibliotecarios",
+							"raw": "{{baseURL}}/usuarios/:id",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"usuarios",
-								"bibliotecarios"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1f10798c-4079-4f02-81de-24d3d90237a5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1f10798c-4079-4f02-81de-24d3d90237a5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salvar Membros",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"membro\",\r\n    \"senha\": \"membro123\",\r\n    \"email\": \"membro@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/membros",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"membros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin.local@gmail.com\",\r\n    \"senha\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
 							]
 						}
 					},
@@ -528,7 +486,17 @@
 							"oauth2": [
 								{
 									"key": "scope",
-									"value": "CLIENTE",
+									"value": "ADMINISTRADOR",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{client_id}}",
 									"type": "string"
 								},
 								{
@@ -542,16 +510,6 @@
 									"type": "string"
 								},
 								{
-									"key": "clientSecret",
-									"value": "client-secret",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "meu-client",
-									"type": "string"
-								},
-								{
 									"key": "addTokenTo",
 									"value": "header",
 									"type": "string"
@@ -559,7 +517,10 @@
 							]
 						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -573,7 +534,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Basic bWV1LWNsaWVudDpjbGllbnQtc2VjcmV0",
+								"value": "Basic Y2xpZW50LXByb2R1Y3Rpb246cHJvZHVjdGlvbi1zZWNyZXQ=",
 								"type": "text"
 							}
 						],
@@ -587,7 +548,7 @@
 								},
 								{
 									"key": "scope",
-									"value": "CLIENTE",
+									"value": "ADMINISTRADOR",
 									"type": "text"
 								}
 							]
@@ -612,6 +573,11 @@
 							"type": "oauth2",
 							"oauth2": [
 								{
+									"key": "authUrl",
+									"value": "{{baseURL}}/oauth2/authorize",
+									"type": "string"
+								},
+								{
 									"key": "clientSecret",
 									"value": "{{client_secret}}",
 									"type": "string"
@@ -624,11 +590,6 @@
 								{
 									"key": "accessTokenUrl",
 									"value": "{{baseURL}}/oauth2/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "{{baseURL}}/oauth2/authorize",
 									"type": "string"
 								},
 								{
@@ -654,7 +615,10 @@
 							]
 						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -668,7 +632,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Basic YWRtaW4xMjM=",
+								"value": "Basic Y2xpZW50LXByb2R1Y3Rpb246cHJvZHVjdGlvbi1zZWNyZXQ=",
 								"type": "text"
 							}
 						],
@@ -682,7 +646,7 @@
 								},
 								{
 									"key": "code",
-									"value": "ZlbOGSXZQfoIUzRUmHvzGRxAy_u-ET8PO0mLt2scw55RrE-XVIWPipTYNo_N_gf2lr2IAIX7SezwwEuIQMscB4nZVvAJr7h4SJn6oZn4mOFaReTUTHD9WkuIHrDAeZnP",
+									"value": "ThtoJUEGBwpUvadJRNb48_xW75ZJMyniYoL0bI0QGFyMP2b1b7nqfSmKHQONUobOE2p4EvttPEmtTX4bdqrmPjhBU_Qrg8wzqAdRCxzEY0MdYDiCmQLtPu6zw1DDuAI6",
 									"type": "text"
 								},
 								{
@@ -779,6 +743,261 @@
 							"port": "8081",
 							"path": [
 								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Emprestimos",
+			"item": [
+				{
+					"name": "Registrar Empréstimo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/emprestimos?idLivro=4638c6d5-f213-4dc3-9f34-2ed1741e0e79&idMembro=0e47d4e3-2765-4f4e-ae95-2fb8a81bdb18",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"emprestimos"
+							],
+							"query": [
+								{
+									"key": "idLivro",
+									"value": "4638c6d5-f213-4dc3-9f34-2ed1741e0e79"
+								},
+								{
+									"key": "idMembro",
+									"value": "0e47d4e3-2765-4f4e-ae95-2fb8a81bdb18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Liberar Emprestimo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/emprestimos/:id/liberar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"emprestimos",
+								":id",
+								"liberar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2567bb1c-2ab6-47b5-ad16-a937444da4f7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Devolver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/emprestimos/:id/devolver",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"emprestimos",
+								":id",
+								"devolver"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2567bb1c-2ab6-47b5-ad16-a937444da4f7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Emprestimos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/emprestimos",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"emprestimos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/emprestimos/reserva?idLivro=4638c6d5-f213-4dc3-9f34-2ed1741e0e79",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"emprestimos",
+								"reserva"
+							],
+							"query": [
+								{
+									"key": "idLivro",
+									"value": "4638c6d5-f213-4dc3-9f34-2ed1741e0e79"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Multas",
+			"item": [
+				{
+					"name": "Solicitar Pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"transactionAmount\": 10.00,\r\n//   \"paymentMethodId\": \"pix\",\r\n//   \"installments\": 1,\r\n//   \"description\": \"Pagamento de multa\",  \r\n\r\n//   \"payer\": {\r\n//     \"email\": \"test@test.com\",\r\n//     \"firstName\": \"Test\",\r\n//     \"identification\": {\r\n//       \"type\": \"CPF\",\r\n//       \"number\": \"12345678909\"\r\n//     }\r\n//   }\r\n// }\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/pagamentos/06941c54-2952-4570-b45b-9ab10ba82fb9",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"pagamentos",
+								"06941c54-2952-4570-b45b-9ab10ba82fb9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Realizar Pagamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"123456\",\r\n  \"live_mode\": false,\r\n  \"type\": \"payment\",\r\n  \"date_created\": \"2025-05-25T13:10:00.000Z\",\r\n  \"data\": {\r\n    \"id\": \"1336514687\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dc33-179-42-37-110.ngrok-free.app/webhook/mercadopago",
+							"protocol": "https",
+							"host": [
+								"dc33-179-42-37-110",
+								"ngrok-free",
+								"app"
+							],
+							"path": [
+								"webhook",
+								"mercadopago"
 							]
 						}
 					},

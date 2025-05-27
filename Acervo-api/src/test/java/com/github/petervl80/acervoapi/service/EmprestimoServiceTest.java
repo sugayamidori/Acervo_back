@@ -54,7 +54,7 @@ class EmprestimoServiceTest {
         livro.setId(livroId);
         livro.setTitulo("Livro Teste");
 
-        when(usuarioRepository.findByNome("testeMember")).thenReturn(usuario);
+        when(usuarioRepository.findById(usuarioId)).thenReturn(Optional.of(usuario));
         when(livroRepository.findById(livroId)).thenReturn(Optional.of(livro));
         when(repository.save(any(Emprestimo.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -161,7 +161,7 @@ class EmprestimoServiceTest {
         List<EmprestimoListagemDTO> resultado = emprestimoService.listarEmprestimos();
 
         assertThat(resultado).hasSize(1);
-        EmprestimoListagemDTO dto = resultado.get(0);
+        EmprestimoListagemDTO dto = resultado.getFirst();
         assertThat(dto.getLivroTitulo()).isEqualTo("Livro Teste");
         assertThat(dto.getUsuarioNome()).isEqualTo("Membro");
         assertThat(dto.getDiasAtraso()).isEqualTo(2);

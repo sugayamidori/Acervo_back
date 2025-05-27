@@ -3,6 +3,7 @@ package com.github.petervl80.acervoapi.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.petervl80.acervoapi.controller.dto.*;
 import com.github.petervl80.acervoapi.controller.mappers.UsuarioMapper;
+import com.github.petervl80.acervoapi.exceptions.UsuarioNaoEncontradoException;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.service.ClientService;
 import com.github.petervl80.acervoapi.service.UsuarioService;
@@ -152,11 +153,11 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornarUnauthorizedQuandoLoginFalhar() throws JsonProcessingException {
-        when(service.autenticar(loginUsuarioDTO)).thenThrow(new RuntimeException("Login inválido"));
+    void deveRetornarNotFoundQuandoLoginFalhar() throws JsonProcessingException {
+        when(service.autenticar(loginUsuarioDTO)).thenThrow(new UsuarioNaoEncontradoException("Usuário e/ou senha incorretos"));
 
         ResponseEntity<LoginResponse> response = controller.login(loginUsuarioDTO);
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
