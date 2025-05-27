@@ -109,6 +109,113 @@ Importe o arquivo `operacoes_postman.json` no [Postman](https://www.postman.com/
 As instruções SQL estão no arquivo [`comandos-sql.txt`](./comandos-sql.txt). Verifique esse arquivo caso queira criar manualmente as tabelas.
 
 ---
+---
+
+### 📖 Funcionalidades de Empréstimos e Multas
+
+Abaixo, um guia para uso das funcionalidades de **empréstimos** e **multas** disponíveis nesta API.
+
+---
+
+#### 📚 Empréstimos
+
+✅ **Registrar um Empréstimo**
+* **Descrição:** Cria um novo empréstimo de um livro para um membro específico. A data de empréstimo será a data atual e a data limite de devolução será calculada automaticamente. O usuário que realiza a requisição será registrado como o responsável pelo empréstimo (`registradoPor`).
+* **Método:** `POST`
+* **URL:** `{{baseURL}}/emprestimos?idLivro={idLivro}&idMembro={idMembro}`
+
+**Respostas Esperadas:**
+    * `200 OK`: Empréstimo criado com sucesso. Retorna o objeto `Emprestimo` com os detalhes.
+    * `400 Bad Request`: Livro não disponível, membro inválido, parâmetros ausentes ou mal formatados.
+    * `404 Not Found`: Livro ou membro não encontrados com os IDs fornecidos.
+
+✅ **Devolver Livro**
+* **Descrição:** Marca um empréstimo como devolvido. A `dataDevolucao` será a data atual. Se a devolução ocorrer após a `dataLimiteDevolucao`, uma multa será gerada e associada ao empréstimo.
+* **Método:** `PUT`
+* **URL:** `{{baseURL}}/emprestimos/{idEmprestimo}/devolver`
+* **Autorização:** **Protegida** (Necessário Token JWT válido com autoridade `BIBLIOTECARIO`ou `ADMIN`).
+* **Corpo da Requisição (JSON):** `{}` (Requisição sem corpo, dados são passados na URL e contextualmente).
+* **Respostas Esperadas:**
+    * `200 OK`: Livro devolvido com sucesso. Retorna o objeto `Emprestimo` atualizado (incluindo dados da `multa` se gerada).
+    * `404 Not Found`: Empréstimo não encontrado com o ID fornecido.
+    * `400 Bad Request`: Empréstimo já devolvido ou status inválido para devolução.
+    * `403 Forbidden`: Token sem autoridade autoridade `BIBLIOTECARIO`ou `ADMIN`.
+
+✅ **Reservar Livro**
+* **Descrição:** Cria uma reserva para um livro disponível para um usuário (membro). Um livro só pode ser reservado se estiver `DISPONIVEL`.
+* **Método:** `POST`
+* **URL:** `{{baseURL}}/emprestimos/reserva?idLivro={idLivro}`
+* **Autorização:** **Livre** (Não exige autenticação JWT).
+* **Corpo da Requisição (JSON):**
+ 
+* **Respostas Esperadas:**
+    * `200 OK`: Livro reservado com sucesso. Retorna o objeto `Emprestimo` com status `RESERVADO`.
+    * `400 Bad Request`: Livro não disponível para reserva, membro inválido.
+    * `404 Not Found`: Livro ou membro não encontrados.
+
+✅ **Liberar Empréstimo Reservado**
+* **Descrição:** Autoriza o empréstimo que estava no status `RESERVADO`, permitindo que ele seja efetivado e o emprestimo fique `EM_VIGENCIA`.
+* **Método:** `PUT`
+* **URL:** `{{baseURL}}/emprestimos/{idEmprestimo}/liberar`
+* **Autorização:** **Protegida** (Necessário Token JWT válido com autoridade `BIBLIOTECARIO`).
+* **Corpo da Requisição (JSON):** `{}`
+* **Respostas Esperadas:**
+    * `200 OK`: Empréstimo liberado com sucesso. Retorna o objeto `Emprestimo` atualizado.
+    * `404 Not Found`: Empréstimo não encontrado.
+    * `400 Bad Request`: Empréstimo não está em status `RESERVADO`.
+    * `403 Forbidden`: Token sem autoridade `BIBLIOTECARIO`.
+
+✅ **Listar Empréstimos**
+* **Descrição:** Retorna a lista de todos os empréstimos registrados no sistema.
+* **Método:** `GET`
+* **URL:** `{{baseURL}}/emprestimos`
+* **Autorização:** **Protegida** (Necessário Token JWT válido com autoridade `BIBLIOTECARIO`).
+* **Respostas Esperadas:**
+    * `200 OK`: Retorna uma lista de objetos `Emprestimo` detalhados (Título do livro, Nome do usuário, Status do empréstimo, Data de devolução, etc.). Pode ser uma lista vazia se não houver empréstimos.
+    * `403 Forbidden`: Token sem autoridade `BIBLIOTECARIO`.
+
+---
+
+#### 💰 Multas e Pagamentos
+
+Para todas as rotas de pagamento, a autorização com um **Token JWT válido** e com a autoridade `MEMBRO` é **obrigatória**.
+A rota de multas é acionada quando um empréstimo é DEVOLVIDO_COM_ATRASO. 
+
+✅ **Processar Pagamento de Multa (Simulado)**
+* **Descrição:** Inicia o processamento de pagamento de uma multa associada a um empréstimo. **Importante:** A integração bancária é **simulada internamente no sistema**. Os campos de pagamento (ID de transação, status, QR Code, etc.) serão preenchidos por lógica interna do sistema.
+* **Método:** `POST`
+* **URL:** `{{baseURL}}/pagamentos/{idEmprestimo}` (O ID do empréstimo ao qual a multa está associada.)
+* **Autorização:** **Protegida** (Necessário Token JWT válido com autoridade `MEMBRO`).
+* **Corpo da Requisição (JSON) - Exemplos de Simulação:**
+
+    * **Pagamento Aprovado:**
+        ```json
+        {
+            "metodoPagamento": "CARTAO",      
+            "sucesso": true                   
+        }
+        ```
+    * ** Pagamento Rejeitado (Falha):**
+        ```json
+        {
+            "metodoPagamento": "BOLETO",
+            "sucesso": false                  
+        }
+        ```
+    * **Pagamento Pendente:**
+        * Ao omitir o campo `"sucesso"`, a simulação gerará um resultado aleatório. Há uma chance de que o pagamento seja `PENDENTE`, especialmente se o `metodoPagamento` for `PIX`.
+        ```json
+        {
+            "metodoPagamento": "PIX"
+        }
+        ```
+* **Respostas Esperadas:**
+    * `200 OK`: Pagamento processado com sucesso. Retorna o objeto `Multa` atualizado com o `status` (ex: `PAGA`, `PENDENTE`, `REJEITADA`), `statusPagamento`, e (para PIX pendente) `qrCodeBase64` e `linkPagamento`.
+    * `404 Not Found`: Empréstimo não encontrado com o ID fornecido, ou multa não encontrada para o empréstimo.
+    * `400 Bad Request`: Multa já paga e não pode ser reprocessada.
+    * `403 Forbidden`: Token sem autoridade `MEMBRO`.
+
+---
 
 ## 🐳 Tecnologias Utilizadas
 
