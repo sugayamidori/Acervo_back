@@ -3,6 +3,7 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\DocumentoIdentificacaoDTO.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\PagamentoTransacao.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\CustomAuthenticationProvider.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\config\MercadoPagoConfig.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\StatusEmprestimo.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\CustomAuthentication.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\LivroRepository.java
@@ -47,6 +48,7 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\MultaRepository.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\ClientDTO.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\PagamentoStatus.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\LivroNaoEncontradoException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\OAuthTokenResponse.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\ErroResposta.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\specs\UsuarioSpecs.java
@@ -60,7 +62,9 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\RegistroDuplicadoException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\Usuario.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\Emprestimo.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\LoginUsuarioDTO.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\mappers\ClientMapper.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\UsuarioNaoEncontradoException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\UsuarioRepository.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\JwtCustomAuthenticationFilter.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\CustomUserDetailsService.java

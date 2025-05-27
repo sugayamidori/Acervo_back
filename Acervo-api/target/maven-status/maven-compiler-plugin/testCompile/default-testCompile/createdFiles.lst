@@ -1,6 +1,9 @@
 com\github\petervl80\acervoapi\service\EmprestimoServiceTest.class
 com\github\petervl80\acervoapi\ApplicationTests.class
 com\github\petervl80\acervoapi\controller\ClientControllerTest.class
+com\github\petervl80\acervoapi\controller\EmprestimoControllerTest.class
+com\github\petervl80\acervoapi\controller\mappers\EmprestimoMapperTest.class
+com\github\petervl80\acervoapi\service\PagamentoServiceTest.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapperTest.class
 com\github\petervl80\acervoapi\controller\LivroControllerTest.class
 com\github\petervl80\acervoapi\controller\UsuarioControllerTest.class
@@ -11,6 +14,7 @@ com\github\petervl80\acervoapi\validator\ClientValidatorTest.class
 com\github\petervl80\acervoapi\controller\dto\ErroRespostaTest.class
 com\github\petervl80\acervoapi\validator\UsuarioValidatorTest.class
 com\github\petervl80\acervoapi\controller\mappers\ClientMapperTest.class
+com\github\petervl80\acervoapi\controller\PagamentoControllerTest.class
 com\github\petervl80\acervoapi\service\LivroServiceTest.class
 com\github\petervl80\acervoapi\service\ClientServiceTest.class
 com\github\petervl80\acervoapi\controller\common\GlobalExceptionHandlerTest$1Dummy.class

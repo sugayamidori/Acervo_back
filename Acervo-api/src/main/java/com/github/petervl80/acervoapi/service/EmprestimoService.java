@@ -1,14 +1,15 @@
 package com.github.petervl80.acervoapi.service;
 
 import com.github.petervl80.acervoapi.controller.dto.EmprestimoListagemDTO;
+import com.github.petervl80.acervoapi.exceptions.LivroNaoEncontradoException;
 import com.github.petervl80.acervoapi.exceptions.OperecaoNaoPermitidaException;
+import com.github.petervl80.acervoapi.exceptions.UsuarioNaoEncontradoException;
 import com.github.petervl80.acervoapi.model.*;
 import com.github.petervl80.acervoapi.repository.EmprestimoRepository;
 import com.github.petervl80.acervoapi.repository.LivroRepository;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
 import com.github.petervl80.acervoapi.security.SecurityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,8 +31,8 @@ public class EmprestimoService {
     private static final BigDecimal VALOR_MULTA_POR_DIA = new BigDecimal("2.50");
 
     public Emprestimo registrarEmprestimo(UUID idLivro, UUID idUsuario) {
-        Usuario usuario = usuarioRepository.findByNome("testeMember");
-        Livro livro = livroRepository.findById(idLivro).orElseThrow();
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado"));
+        Livro livro = livroRepository.findById(idLivro).orElseThrow(() -> new LivroNaoEncontradoException("Usuário não encontrado"));
 
         Emprestimo emprestimo = new Emprestimo();
         emprestimo.setLivro(livro);
@@ -41,7 +42,7 @@ public class EmprestimoService {
 
         return repository.save(emprestimo);
     }
-    @PreAuthorize("hasRole('BIBLIOTECARIO') or hasRole('ADMINISTRADOR')")
+
     public Emprestimo liberarEmprestimo(UUID idEmprestimo) {
 
         Emprestimo emprestimo = repository.findById(idEmprestimo).orElseThrow();
@@ -53,11 +54,11 @@ public class EmprestimoService {
         emprestimo.setRegistradoPor(bibliotecario);
         emprestimo.setDataEmprestimo(LocalDate.now());
         emprestimo.setDataLimiteDevolucao(LocalDate.now().plusDays(PRAZO_PADRAO_DIAS));
-        emprestimo.setStatus(StatusEmprestimo.ATIVO);
+        emprestimo.setStatus(StatusEmprestimo.EM_VIGENCIA);
 
         return repository.save(emprestimo);
     }
-    @PreAuthorize("hasRole('BIBLIOTECARIO')")
+
     public Emprestimo devolver(UUID idEmprestimo) {
         Emprestimo emprestimo = repository.findById(idEmprestimo).orElseThrow();
         LocalDate dataDevolucao = LocalDate.now();
@@ -93,7 +94,7 @@ public class EmprestimoService {
 
         return repository.save(reserva);
     }
-//    @PreAuthorize("hasRole('BIBLIOTECARIO') or hasRole('ADMINISTRADOR')")
+    
     public List<EmprestimoListagemDTO> listarEmprestimos() {
         List<Emprestimo> emprestimos = repository.findAll();
 

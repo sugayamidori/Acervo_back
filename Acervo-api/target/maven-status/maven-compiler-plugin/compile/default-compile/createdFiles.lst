@@ -14,6 +14,7 @@ com\github\petervl80\acervoapi\model\StatusEmprestimo.class
 com\github\petervl80\acervoapi\controller\PagamentoController.class
 com\github\petervl80\acervoapi\controller\dto\ErroCampo.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapper.class
+com\github\petervl80\acervoapi\exceptions\ResourceNotFoundException.class
 com\github\petervl80\acervoapi\validator\UsuarioValidator.class
 com\github\petervl80\acervoapi\security\SecurityService.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapperImpl.class
@@ -46,6 +47,7 @@ com\github\petervl80\acervoapi\model\Client.class
 com\github\petervl80\acervoapi\controller\mappers\EmprestimoMapper.class
 com\github\petervl80\acervoapi\repository\specs\LivroSpecs.class
 com\github\petervl80\acervoapi\model\DisponibilidadeEnum.class
+com\github\petervl80\acervoapi\model\Emprestimo$EmprestimoBuilder.class
 com\github\petervl80\acervoapi\model\PagamentoStatus.class
 com\github\petervl80\acervoapi\controller\dto\UsuarioMembroDTO.class
 com\github\petervl80\acervoapi\security\CustomRegisteredClientRepository.class
@@ -56,6 +58,7 @@ com\github\petervl80\acervoapi\security\CustomUserDetailsService.class
 com\github\petervl80\acervoapi\service\UsuarioService.class
 com\github\petervl80\acervoapi\controller\dto\ResultadoPesquisaUsuarioDTO.class
 com\github\petervl80\acervoapi\exceptions\RegistroDuplicadoException.class
+com\github\petervl80\acervoapi\controller\dto\LoginUsuarioDTO.class
 com\github\petervl80\acervoapi\controller\dto\DocumentoIdentificacaoDTO.class
 com\github\petervl80\acervoapi\controller\dto\LoginResponse.class
 com\github\petervl80\acervoapi\model\Usuario.class
@@ -64,6 +67,8 @@ com\github\petervl80\acervoapi\repository\LivroRepository.class
 com\github\petervl80\acervoapi\controller\mappers\ClientMapperImpl.class
 com\github\petervl80\acervoapi\service\PagamentoService.class
 com\github\petervl80\acervoapi\Application.class
+com\github\petervl80\acervoapi\exceptions\LivroNaoEncontradoException.class
+com\github\petervl80\acervoapi\exceptions\UsuarioNaoEncontradoException.class
 com\github\petervl80\acervoapi\model\Multa$MultaBuilder.class
 com\github\petervl80\acervoapi\controller\dto\EmprestimoDTO.class
 com\github\petervl80\acervoapi\repository\specs\UsuarioSpecs.class

@@ -1,11 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Usuario ADMINISTRADOR - senha: admin123
 insert into usuario
 (id, nome, senha, email, roles)
 values
-( uuid_generate_v4(), 'admin', '$2a$12$6KscFSLl7HSzCqHFE2lrAu8eop0AW2AnTvI4nnKe1OZAuw4jC7ds.', 'admin@email.com', '{ADMINISTRADOR}' );
+( uuid_generate_v4(), 'admin', '$2a$12$6KscFSLl7HSzCqHFE2lrAu8eop0AW2AnTvI4nnKe1OZAuw4jC7ds.', 'admin@gmail.com', '{ADMINISTRADOR}' );
 
 
+
+-- Clients genéricos
 insert into client
 (id, client_id, client_secret, redirect_uri, scope)
 values
@@ -20,3 +23,12 @@ insert into client
 (id, client_id, client_secret, redirect_uri, scope)
 values
 ( uuid_generate_v4(), 'client-bibliotecario', '$2a$12$iFKDevFWIVDrdEqr47v1v.k101y0i/Y7yPXodOfYn07s9siFf/Uym','http://localhost:8080/authorized' , 'BIBLIOTECARIO');
+
+
+
+
+-- Client específica do ADMINISTRADOR
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), 'UUID_do_admin', 'senha_do_admin_criptografado','http://localhost:8080/authorized' , 'ADMINISTRADOR');

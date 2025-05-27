@@ -3,6 +3,7 @@ package com.github.petervl80.acervoapi.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.petervl80.acervoapi.controller.dto.*;
 import com.github.petervl80.acervoapi.controller.mappers.UsuarioMapper;
+import com.github.petervl80.acervoapi.exceptions.UsuarioNaoEncontradoException;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.service.ClientService;
 import com.github.petervl80.acervoapi.service.UsuarioService;
@@ -43,6 +44,7 @@ class UsuarioControllerTest {
     private Usuario usuario;
     private UsuarioDTO usuarioDTO;
     private UsuarioMembroDTO usuarioMembroDTO;
+    private LoginUsuarioDTO loginUsuarioDTO;
     private ResultadoPesquisaUsuarioDTO resultadoDTO;
     private UUID idUsuario;
 
@@ -62,6 +64,11 @@ class UsuarioControllerTest {
                 "membro",
                 "1234",
                 "membro@gmail.com");
+
+        loginUsuarioDTO = new LoginUsuarioDTO(
+                "admin",
+                "1234"
+        );
 
         resultadoDTO = new ResultadoPesquisaUsuarioDTO(
                 idUsuario,
@@ -133,12 +140,12 @@ class UsuarioControllerTest {
 
     @Test
     void deveRetornarTokenValidoQuandoLoginForBemSucedido() throws JsonProcessingException {
-        when(service.autenticar(usuarioDTO)).thenReturn(usuario);
+        when(service.autenticar(loginUsuarioDTO)).thenReturn(usuario);
 
         OAuthTokenResponse token = new OAuthTokenResponse("token123", "read", "Bearer", 3600);
-        when(clientService.getTokenFromOAuth(usuario)).thenReturn(token);
+        when(clientService.getTokenFromOAuth(usuario, loginUsuarioDTO.senha())).thenReturn(token);
 
-        ResponseEntity<LoginResponse> response = controller.login(usuarioDTO);
+        ResponseEntity<LoginResponse> response = controller.login(loginUsuarioDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -146,11 +153,11 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornarUnauthorizedQuandoLoginFalhar() {
-        when(service.autenticar(usuarioDTO)).thenThrow(new RuntimeException("Login inválido"));
+    void deveRetornarNotFoundQuandoLoginFalhar() throws JsonProcessingException {
+        when(service.autenticar(loginUsuarioDTO)).thenThrow(new UsuarioNaoEncontradoException("Usuário e/ou senha incorretos"));
 
-        ResponseEntity<LoginResponse> response = controller.login(usuarioDTO);
+        ResponseEntity<LoginResponse> response = controller.login(loginUsuarioDTO);
 
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
