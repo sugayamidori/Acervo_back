@@ -5,6 +5,7 @@ import com.github.petervl80.acervoapi.controller.dto.ErroResposta;
 import com.github.petervl80.acervoapi.exceptions.CampoInvalidoException;
 import com.github.petervl80.acervoapi.exceptions.OperecaoNaoPermitidaException;
 import com.github.petervl80.acervoapi.exceptions.RegistroDuplicadoException;
+import com.github.petervl80.acervoapi.exceptions.UsuarioNaoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -42,6 +43,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta handleOperecaoNaoPermitidaException(OperecaoNaoPermitidaException e) {
         return ErroResposta.respostaPadrao(e.getMessage());
+    }
+
+    @ExceptionHandler(UsuarioNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErroResposta handleUsuarioNaoEncontradoException(UsuarioNaoEncontradoException e) {
+        return ErroResposta.usuarioNaoEncontrado(e.getMessage());
     }
 
     @ExceptionHandler(CampoInvalidoException.class)

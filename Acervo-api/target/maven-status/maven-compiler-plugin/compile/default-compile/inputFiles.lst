@@ -60,7 +60,9 @@ C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\g
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\RegistroDuplicadoException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\Usuario.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\model\Emprestimo.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\dto\LoginUsuarioDTO.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\controller\mappers\ClientMapper.java
+C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\exceptions\UsuarioNaoEncontradoException.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\repository\UsuarioRepository.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\JwtCustomAuthenticationFilter.java
 C:\Users\pviniciusl\Projetos Intellij\Acervo_back\Acervo-api\src\main\java\com\github\petervl80\acervoapi\security\CustomUserDetailsService.java

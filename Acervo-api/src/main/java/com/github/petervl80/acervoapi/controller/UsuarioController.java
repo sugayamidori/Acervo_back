@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.petervl80.acervoapi.controller.dto.*;
 import com.github.petervl80.acervoapi.controller.mappers.UsuarioMapper;
 import com.github.petervl80.acervoapi.model.Usuario;
@@ -7,7 +8,6 @@ import com.github.petervl80.acervoapi.service.ClientService;
 import com.github.petervl80.acervoapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class UsuarioController implements GenericController {
     public ResponseEntity<Void> salvarMembro(@RequestBody @Valid UsuarioMembroDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         service.salvarMembro(usuario);
-
+        clientService.salvarClientUsuario(usuario);
         URI location = gerarHeaderLocation(usuario.getId());
 
         return ResponseEntity.created(location).build();
@@ -39,7 +39,7 @@ public class UsuarioController implements GenericController {
     public ResponseEntity<Void> salvarUsuario(@RequestBody @Valid UsuarioDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         service.salvarUsuario(usuario);
-
+        clientService.salvarClientUsuario(usuario);
         URI location = gerarHeaderLocation(usuario.getId());
 
         return ResponseEntity.created(location).build();
@@ -59,10 +59,9 @@ public class UsuarioController implements GenericController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody UsuarioDTO dto) {
-        try {
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginUsuarioDTO dto) throws JsonProcessingException {
             Usuario usuario = service.autenticar(dto);
-            OAuthTokenResponse token = clientService.getTokenFromOAuth(usuario);
+            OAuthTokenResponse token = clientService.getTokenFromOAuth(usuario, dto.senha());
 
             LoginResponse response = new LoginResponse(
                     usuario.getId(),
@@ -71,9 +70,5 @@ public class UsuarioController implements GenericController {
                     token.token_type(),
                     token.expires_in());
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
     }
 }
