@@ -45,21 +45,21 @@ class UsuarioServiceTest {
     void setup() {
         membro = new Usuario();
         membro.setId(UUID.randomUUID());
-        membro.setLogin("membro");
+        membro.setNome("membro");
         membro.setEmail("membro@gmail.com");
         membro.setSenha("membro123");
         membro.setRoles(List.of("MEMBRO"));
 
         bibliotecario = new Usuario();
         bibliotecario.setId(UUID.randomUUID());
-        bibliotecario.setLogin("bibliotecario");
+        bibliotecario.setNome("bibliotecario");
         bibliotecario.setEmail("bibliotecario@gmail.com");
         bibliotecario.setSenha("bibliotecario123");
         bibliotecario.setRoles(List.of("BIBLIOTECARIO"));
 
         admin = new Usuario();
         admin.setId(UUID.randomUUID());
-        admin.setLogin("admin");
+        admin.setNome("admin");
         admin.setEmail("admin@gmail.com");
         admin.setSenha("admin123");
         admin.setRoles(List.of("ADMINISTRADOR"));
@@ -139,13 +139,13 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void deveObterUsuarioPorLogin() {
-        String login = bibliotecario.getLogin();
-        when(repository.findByLogin(login)).thenReturn(bibliotecario);
+    void deveObterUsuarioPorNome() {
+        String nome = bibliotecario.getNome();
+        when(repository.findByNome(nome)).thenReturn(bibliotecario);
 
-        Usuario encontrado = service.obterPorLogin(login);
+        Usuario encontrado = service.obterPorNome(nome);
 
-        verify(repository).findByLogin(login);
+        verify(repository).findByNome(nome);
 
         assertEquals(bibliotecario, encontrado);
     }
@@ -168,21 +168,21 @@ class UsuarioServiceTest {
             "bibliotecario, BIBLIOTECARIO",
             "admin, ADMINISTRADOR"
     })
-    void devePesquisarPorLoginERoleDinamico(String login, String role) {
+    void devePesquisarPorNomeERoleDinamico(String nome, String role) {
         Usuario usuario = new Usuario();
-        usuario.setLogin(login);
+        usuario.setNome(nome);
         usuario.setRoles(List.of(role));
 
         when(repository.findAll(any(Specification.class)))
                 .thenReturn(List.of(usuario));
 
-        List<Usuario> resultado = service.pesquisa(login, role);
+        List<Usuario> resultado = service.pesquisa(nome, role);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
 
-        Usuario resultadoUsuario = resultado.get(0);
-        assertEquals(login, resultadoUsuario.getLogin());
+        Usuario resultadoUsuario = resultado.getFirst();
+        assertEquals(nome, resultadoUsuario.getNome());
         assertTrue(resultadoUsuario.getRoles().contains(role));
 
         verify(repository).findAll(any(Specification.class));
@@ -196,7 +196,7 @@ class UsuarioServiceTest {
         when(repository.findByEmail(membro.getEmail())).thenReturn(membro);
         when(encoder.matches("membro123", senhaCriptografada)).thenReturn(true);
 
-        Usuario autenticado = service.autenticar(new UsuarioDTO(membro.getLogin(),
+        Usuario autenticado = service.autenticar(new UsuarioDTO(membro.getNome(),
                 "membro123", membro.getEmail(), membro.getRoles()));
 
         assertEquals(membro, autenticado);
@@ -223,7 +223,7 @@ class UsuarioServiceTest {
 
     @Test
     void deveLancarExcecaoQuandoSenhaIncorretaNaAutenticacao() {
-        UsuarioDTO dto = new UsuarioDTO(membro.getLogin(),
+        UsuarioDTO dto = new UsuarioDTO(membro.getNome(),
                 "membro1234", membro.getEmail(), membro.getRoles());
         membro.setSenha("senha-encriptografada");
 

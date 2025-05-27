@@ -5,9 +5,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class UsuarioSpecs {
 
-    public static Specification<Usuario> loginLike(String login) {
+    public static Specification<Usuario> nomeLike(String nome) {
         return (root, query, cb) ->
-                cb.like( cb.upper(root.get("login")), "%" + login.toUpperCase() + "%");
+                cb.like( cb.upper(root.get("nome")), "%" + nome.toUpperCase() + "%");
     }
 
     public static Specification<Usuario> roleLike(String role) {

@@ -8,13 +8,14 @@ services:
       - "8080:8080"
       - "9090:9090"
     environment:
-      - DATASOURCE_URL=jdbc:postgresql://acervo-database.clgawswe81nt.sa-east-1.rds.amazonaws.com/acervo
-      - DATASOURCE_USERNAME=acervo_master
-      - DATASOURCE_PASSWORD=acervomaster123!
+      - DATASOURCE_URL=${DATASOURCE_URL}
+      - DATASOURCE_USERNAME=${DATASOURCE_USERNAME}
+      - DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
       - GOOGLE_CLIENT_ID=client_id
       - GOOGLE_CLIENT_SECRET=client_secret
       - SPRING_PROFILES_ACTIVE=default
       - TZ=America/Sao_Paulo
+      - MERCADO_PAGO_TOKEN:${MERCADO_PAGO_TOKEN}
 
 volumes:
   postgres_data:

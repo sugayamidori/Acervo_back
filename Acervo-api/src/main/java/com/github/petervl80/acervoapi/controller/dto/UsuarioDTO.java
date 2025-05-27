@@ -8,7 +8,7 @@ import java.util.List;
 
 public record UsuarioDTO(
         @NotBlank(message = "Campo obrigatório")
-        String login,
+        String nome,
         @NotBlank(message = "Campo obrigatório")
         String senha,
         @Email (message = "inválido")

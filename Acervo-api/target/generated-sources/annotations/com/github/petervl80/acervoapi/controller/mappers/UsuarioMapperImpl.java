@@ -6,13 +6,14 @@ import com.github.petervl80.acervoapi.controller.dto.UsuarioMembroDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-25T15:46:20-0300",
-    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.3 (Oracle Corporation)"
+    date = "2025-05-26T16:36:43-0300",
+    comments = "version: 1.6.0, compiler: javac, environment: Java 21.0.6 (Oracle Corporation)"
 )
 @Component
 public class UsuarioMapperImpl implements UsuarioMapper {
@@ -25,7 +26,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
         Usuario usuario = new Usuario();
 
-        usuario.setLogin( dto.login() );
+        usuario.setNome( dto.nome() );
         usuario.setSenha( dto.senha() );
         usuario.setEmail( dto.email() );
         List<String> list = dto.roles();
@@ -44,7 +45,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
         Usuario usuario = new Usuario();
 
-        usuario.setLogin( dto.login() );
+        usuario.setNome( dto.nome() );
         usuario.setSenha( dto.senha() );
         usuario.setEmail( dto.email() );
 
@@ -57,12 +58,12 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
-        String login = null;
+        String nome = null;
         String senha = null;
         String email = null;
         List<String> roles = null;
 
-        login = usuario.getLogin();
+        nome = usuario.getNome();
         senha = usuario.getSenha();
         email = usuario.getEmail();
         List<String> list = usuario.getRoles();
@@ -70,7 +71,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             roles = new ArrayList<String>( list );
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO( login, senha, email, roles );
+        UsuarioDTO usuarioDTO = new UsuarioDTO( nome, senha, email, roles );
 
         return usuarioDTO;
     }
@@ -81,18 +82,20 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
-        String login = null;
+        UUID id = null;
+        String nome = null;
         String email = null;
         List<String> roles = null;
 
-        login = usuario.getLogin();
+        id = usuario.getId();
+        nome = usuario.getNome();
         email = usuario.getEmail();
         List<String> list = usuario.getRoles();
         if ( list != null ) {
             roles = new ArrayList<String>( list );
         }
 
-        ResultadoPesquisaUsuarioDTO resultadoPesquisaUsuarioDTO = new ResultadoPesquisaUsuarioDTO( login, email, roles );
+        ResultadoPesquisaUsuarioDTO resultadoPesquisaUsuarioDTO = new ResultadoPesquisaUsuarioDTO( id, nome, email, roles );
 
         return resultadoPesquisaUsuarioDTO;
     }
