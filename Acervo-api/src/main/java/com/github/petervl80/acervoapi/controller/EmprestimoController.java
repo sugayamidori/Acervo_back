@@ -6,6 +6,7 @@ import com.github.petervl80.acervoapi.controller.mappers.EmprestimoMapper;
 import com.github.petervl80.acervoapi.service.EmprestimoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}/devolver")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<EmprestimoDTO> devolverLivro(@PathVariable UUID id) {
         return ResponseEntity.ok(
                 mapper.toDTO(service.devolver(id))
@@ -42,6 +44,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}/liberar")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'BIBLIOTECARIO')")
     public ResponseEntity<EmprestimoDTO> liberarEmprestimo(@PathVariable UUID id) {
         return ResponseEntity.ok(
                 mapper.toDTO(service.liberarEmprestimo(id))

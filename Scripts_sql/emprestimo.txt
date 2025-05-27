@@ -1,0 +1,11 @@
+CREATE TABLE emprestimo (
+    id UUID PRIMARY KEY,
+    membro_id UUID NOT NULL,
+    livro_id UUID NOT NULL,
+    data_emprestimo DATE,
+    data_limite_devolucao DATE,
+    data_devolucao DATE,
+    data_pagamento_multa DATE,
+    status VARCHAR(30),
+    registrado_por_id UUID
+);

@@ -12,6 +12,7 @@ com\github\petervl80\acervoapi\repository\ClientRepository.class
 com\github\petervl80\acervoapi\service\ClientService.class
 com\github\petervl80\acervoapi\model\StatusEmprestimo.class
 com\github\petervl80\acervoapi\controller\PagamentoController.class
+com\github\petervl80\acervoapi\config\MercadoPagoConfig.class
 com\github\petervl80\acervoapi\controller\dto\ErroCampo.class
 com\github\petervl80\acervoapi\controller\mappers\UsuarioMapper.class
 com\github\petervl80\acervoapi\validator\UsuarioValidator.class
@@ -65,6 +66,7 @@ com\github\petervl80\acervoapi\repository\LivroRepository.class
 com\github\petervl80\acervoapi\controller\mappers\ClientMapperImpl.class
 com\github\petervl80\acervoapi\service\PagamentoService.class
 com\github\petervl80\acervoapi\Application.class
+com\github\petervl80\acervoapi\exceptions\LivroNaoEncontradoException.class
 com\github\petervl80\acervoapi\exceptions\UsuarioNaoEncontradoException.class
 com\github\petervl80\acervoapi\model\Multa$MultaBuilder.class
 com\github\petervl80\acervoapi\controller\dto\EmprestimoDTO.class

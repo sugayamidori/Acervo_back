@@ -1,0 +1,14 @@
+CREATE TABLE multa (
+    id UUID PRIMARY KEY,
+    data_geracao DATE,
+    data_pagamento DATE,
+    emprestimo_id UUID REFERENCES emprestimo(id),
+    link_pagamento TEXT,
+    mercado_pago_payment_id TEXT,
+    metodo_pagamento TEXT,
+    qr_code_base64 TEXT,
+    qr_code_text TEXT,
+    status TEXT,
+    status_pagamento TEXT,
+    valor NUMERIC
+);
