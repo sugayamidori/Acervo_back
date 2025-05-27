@@ -35,6 +35,20 @@ public class ClientService {
         return repository.save(client);
     }
 
+    public Client salvarClientUsuario(Usuario usuario){
+        String context = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .build()
+                .toUriString();
+        Client client = new Client();
+        client.setClientId(usuario.getId().toString());
+        String senhaCriptografada = encoder.encode(usuario.getRoles().getFirst().toLowerCase() + "-" + usuario.getId());
+        client.setClientSecret(usuario.getSenha());
+        client.setRedirectURI(context + "/authorized");
+        client.setScope(usuario.getRoles().getFirst());
+        return repository.save(client);
+    }
+
     public Client obterPorClientID(String clientId){
         return repository.findByClientId(clientId);
     }
@@ -45,12 +59,12 @@ public class ClientService {
                 .build()
                 .toUriString();
 
-        Client client = repository.findByScopeInAndRedirectURIContaining(usuario.getRoles(), context);
+        Client client = repository.findByClientId(usuario.getId().toString());
         String tokenUrl = context + "/oauth2/token";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        String secret = client.getClientId().substring(client.getClientId().indexOf("-") + 1) + "-secret";
+        String secret = usuario.getRoles().getFirst().toLowerCase() + "-" + usuario.getId();
         headers.setBasicAuth(client.getClientId(), secret);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();

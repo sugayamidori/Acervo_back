@@ -20,3 +20,8 @@ insert into client
 (id, client_id, client_secret, redirect_uri, scope)
 values
 ( uuid_generate_v4(), 'client-bibliotecario', '$2a$12$iFKDevFWIVDrdEqr47v1v.k101y0i/Y7yPXodOfYn07s9siFf/Uym','http://localhost:8080/authorized' , 'BIBLIOTECARIO');
+
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), '45f2d138-557d-4480-8d1a-4612e3362b09', '$2a$12$fQ0ZlzMqbJctZAWVZuvftOXjt9okjAkeK4hs9mXjE3NRT/jtNILSe','http://localhost:8080/authorized' , 'ADMINISTRADOR');

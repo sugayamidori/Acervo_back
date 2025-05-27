@@ -28,7 +28,7 @@ public class UsuarioController implements GenericController {
     public ResponseEntity<Void> salvarMembro(@RequestBody @Valid UsuarioMembroDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         service.salvarMembro(usuario);
-
+        clientService.salvarClientUsuario(usuario);
         URI location = gerarHeaderLocation(usuario.getId());
 
         return ResponseEntity.created(location).build();
@@ -39,7 +39,7 @@ public class UsuarioController implements GenericController {
     public ResponseEntity<Void> salvarUsuario(@RequestBody @Valid UsuarioDTO dto) {
         Usuario usuario = mapper.toEntity(dto);
         service.salvarUsuario(usuario);
-
+        clientService.salvarClientUsuario(usuario);
         URI location = gerarHeaderLocation(usuario.getId());
 
         return ResponseEntity.created(location).build();

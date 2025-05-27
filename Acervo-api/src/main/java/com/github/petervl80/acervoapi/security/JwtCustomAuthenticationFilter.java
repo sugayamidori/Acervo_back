@@ -9,11 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -30,10 +31,10 @@ public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(deveConverter(authentication)) {
-            String login = authentication.getName();
-            Usuario usuario = usuarioService.obterPorEmail(login);
-            if (usuario != null) {
-                authentication = new CustomAuthentication(usuario);
+            String id = authentication.getName();
+            Optional<Usuario> usuario = usuarioService.obterPorId(UUID.fromString(id));
+            if (usuario.isPresent()) {
+                authentication = new CustomAuthentication(usuario.get());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
@@ -42,6 +43,6 @@ public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean deveConverter(Authentication authentication) {
-        return authentication != null && authentication instanceof JwtAuthenticationToken;
+        return authentication != null;
     }
 }
