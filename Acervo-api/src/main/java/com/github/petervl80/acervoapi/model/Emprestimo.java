@@ -6,7 +6,11 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import lombok.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "emprestimo")
 @Getter

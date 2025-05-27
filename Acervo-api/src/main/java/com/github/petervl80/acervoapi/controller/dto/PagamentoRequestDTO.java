@@ -1,12 +1,16 @@
 package com.github.petervl80.acervoapi.controller.dto;
 
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record PagamentoRequestDTO(
-        BigDecimal transactionAmount,
-        String token, // Para cartão
-        String paymentMethodId, // "pix", "bolbradesco", etc.
-        Integer installments,
-        String description,
-        PagadorDTO payer
-) {}
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PagamentoRequestDTO {
+    private String metodoPagamento;
+    private Boolean sucesso;
+
+}

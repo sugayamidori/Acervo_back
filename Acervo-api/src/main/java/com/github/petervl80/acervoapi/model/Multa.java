@@ -36,7 +36,6 @@ public class Multa {
     @Column
     private String idempotencyKey;
 
-    // Dados do Mercado Pago
     private String mercadoPagoPaymentId;
     private String statusPagamento;
     private String qrCodeBase64;  // para pix
