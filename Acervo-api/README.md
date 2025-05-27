@@ -107,7 +107,7 @@ Importe o arquivo `operacoes_postman.json` no [Postman](https://www.postman.com/
 
 ## 🧾 Criação das Tabelas
 
-As instruções SQL estão na pasta [`Scripts_sql`](./Scripts_sql). Verifique esse arquivo caso queira criar manualmente as tabelas.
+As instruções SQL estão na pasta [`Scripts_sql`](../Scripts_sql). Verifique esse arquivo caso queira criar manualmente as tabelas.
 
 ---
 ---
@@ -235,4 +235,4 @@ A rota de multas é acionada quando um empréstimo é DEVOLVIDO_COM_ATRASO.
 
 - Certifique-se de que as portas `5432` (PostgreSQL) e `15432` (pgAdmin) estejam livres no seu sistema.
 - O projeto está estruturado para fácil deploy em containers e integração com serviços externos.
-- Verifique a pasta [`Docker`](./Docker) caso queira fazer uso do Docker localmente e pela AWS
+- Verifique a pasta [`Docker`](../Docker) caso queira fazer uso do Docker localmente e pela AWS
