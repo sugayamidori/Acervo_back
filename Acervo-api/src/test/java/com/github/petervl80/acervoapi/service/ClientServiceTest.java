@@ -94,7 +94,7 @@ class ClientServiceTest {
     @Test
     void deveObterTokenDoOAuth() {
         String context = "http://localhost";
-
+        String senha = "user-password";
         when(repository.findByScopeInAndRedirectURIContaining(usuario.getRoles(), context)).thenReturn(client);
 
         try (MockedStatic<ServletUriComponentsBuilder> builderMockedStatic = mockStatic(ServletUriComponentsBuilder.class)) {
@@ -109,7 +109,7 @@ class ClientServiceTest {
             when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(String.class)))
                     .thenReturn(responseEntity);
 
-            OAuthTokenResponse token = service.getTokenFromOAuth(usuario);
+            OAuthTokenResponse token = service.getTokenFromOAuth(usuario, senha);
 
             assertEquals(expectedToken, token.access_token());
 

@@ -42,7 +42,6 @@ public class ClientService {
                 .toUriString();
         Client client = new Client();
         client.setClientId(usuario.getId().toString());
-        String senhaCriptografada = encoder.encode(usuario.getRoles().getFirst().toLowerCase() + "-" + usuario.getId());
         client.setClientSecret(usuario.getSenha());
         client.setRedirectURI(context + "/authorized");
         client.setScope(usuario.getRoles().getFirst());
@@ -53,7 +52,7 @@ public class ClientService {
         return repository.findByClientId(clientId);
     }
 
-    public OAuthTokenResponse getTokenFromOAuth(Usuario usuario) throws JsonProcessingException {
+    public OAuthTokenResponse getTokenFromOAuth(Usuario usuario, String senha) throws JsonProcessingException {
         String context = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .build()
@@ -64,8 +63,7 @@ public class ClientService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        String secret = usuario.getRoles().getFirst().toLowerCase() + "-" + usuario.getId();
-        headers.setBasicAuth(client.getClientId(), secret);
+        headers.setBasicAuth(client.getClientId(), senha);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");

@@ -1,6 +1,6 @@
 package com.github.petervl80.acervoapi.service;
 
-import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
+import com.github.petervl80.acervoapi.controller.dto.LoginUsuarioDTO;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
 import com.github.petervl80.acervoapi.validator.UsuarioValidator;
@@ -196,8 +196,8 @@ class UsuarioServiceTest {
         when(repository.findByEmail(membro.getEmail())).thenReturn(membro);
         when(encoder.matches("membro123", senhaCriptografada)).thenReturn(true);
 
-        Usuario autenticado = service.autenticar(new UsuarioDTO(membro.getNome(),
-                "membro123", membro.getEmail(), membro.getRoles()));
+        Usuario autenticado = service.autenticar(new LoginUsuarioDTO(membro.getEmail(),
+                "membro123"));
 
         assertEquals(membro, autenticado);
         verify(repository).findByEmail(membro.getEmail());
@@ -206,7 +206,7 @@ class UsuarioServiceTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoEncontradoNaAutenticacao() {
-        UsuarioDTO dto = new UsuarioDTO("inexistente","senha123", "inexistente@gmail.com", List.of("MEMBRO"));
+        LoginUsuarioDTO dto = new LoginUsuarioDTO("inexistente@gmail.com","senha123");
 
         when(repository.findByEmail(dto.email())).thenReturn(null);
 
@@ -223,8 +223,8 @@ class UsuarioServiceTest {
 
     @Test
     void deveLancarExcecaoQuandoSenhaIncorretaNaAutenticacao() {
-        UsuarioDTO dto = new UsuarioDTO(membro.getNome(),
-                "membro1234", membro.getEmail(), membro.getRoles());
+        LoginUsuarioDTO dto = new LoginUsuarioDTO(membro.getEmail(),
+                "membro1234");
         membro.setSenha("senha-encriptografada");
 
         when(repository.findByEmail(dto.email())).thenReturn(membro);

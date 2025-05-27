@@ -1,11 +1,11 @@
 package com.github.petervl80.acervoapi.service;
 
-import com.github.petervl80.acervoapi.controller.dto.UsuarioDTO;
+import com.github.petervl80.acervoapi.controller.dto.LoginUsuarioDTO;
+import com.github.petervl80.acervoapi.exceptions.UsuarioNaoEncontradoException;
 import com.github.petervl80.acervoapi.model.Usuario;
 import com.github.petervl80.acervoapi.repository.UsuarioRepository;
 import com.github.petervl80.acervoapi.validator.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +74,7 @@ public class UsuarioService {
         return null;
     }
 
-    public Usuario autenticar(UsuarioDTO dto) {
+    public Usuario autenticar(LoginUsuarioDTO dto) {
         String email = dto.email();
         String senhaDigitada = dto.senha();
 
@@ -95,7 +95,7 @@ public class UsuarioService {
         throw getErroUsuarioNaoEncontrado();
     }
 
-    private static UsernameNotFoundException getErroUsuarioNaoEncontrado() {
-        return new UsernameNotFoundException("Usuário e/ou senha incorretos");
+    private static UsuarioNaoEncontradoException getErroUsuarioNaoEncontrado() {
+        return new UsuarioNaoEncontradoException("Usuário e/ou senha incorretos");
     }
 }
