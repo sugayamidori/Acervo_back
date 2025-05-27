@@ -1,5 +1,6 @@
 package com.github.petervl80.acervoapi.controller.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class EmprestimoListagemDTO {
     private UUID id;
     private String livroTitulo;

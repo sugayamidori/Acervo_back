@@ -34,10 +34,12 @@ public class PagamentoService {
 
     private final EmprestimoRepository emprestimoRepository;
     private final MultaRepository multaRepository;
+    private final PaymentClient paymentClient;
     @Value("${mercado.pago.token}")
     private String mercadoPagoToken;
 
-    @PreAuthorize("hasRole('MEMBRO')")
+//@PreAuthorize("hasRole('MEMBRO')")
+@PreAuthorize("hasAuthority('MEMBRO')")
     public Multa realizarPagamentoComMercadoPago(UUID idEmprestimo, PagamentoRequestDTO request) throws Exception {
 
         MercadoPagoConfig.setAccessToken(mercadoPagoToken);
@@ -55,7 +57,7 @@ public class PagamentoService {
             multaRepository.save(multa);
         }
 
-        PaymentClient client = new PaymentClient();
+//        PaymentClient client = new PaymentClient();
 
         PaymentCreateRequest paymentCreateRequest = PaymentCreateRequest.builder()
                 .transactionAmount(request.transactionAmount())
@@ -94,7 +96,7 @@ public class PagamentoService {
                 .build();
 
         try {
-            Payment payment = client.create(paymentCreateRequest, requestOptions);
+            Payment payment = paymentClient.create(paymentCreateRequest, requestOptions);
 
             multa.setMercadoPagoPaymentId(payment.getId().toString());
             multa.setMetodoPagamento(payment.getPaymentMethodId());

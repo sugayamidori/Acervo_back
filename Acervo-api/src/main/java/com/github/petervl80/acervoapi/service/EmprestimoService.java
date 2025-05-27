@@ -53,7 +53,7 @@ public class EmprestimoService {
         emprestimo.setRegistradoPor(bibliotecario);
         emprestimo.setDataEmprestimo(LocalDate.now());
         emprestimo.setDataLimiteDevolucao(LocalDate.now().plusDays(PRAZO_PADRAO_DIAS));
-        emprestimo.setStatus(StatusEmprestimo.ATIVO);
+        emprestimo.setStatus(StatusEmprestimo.EM_VIGENCIA);
 
         return repository.save(emprestimo);
     }
