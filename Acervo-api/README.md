@@ -1,3 +1,6 @@
+# 📄 Acervo Documentação
+Acesse a documentação completa do projeto clicando no link: [Acervo - Documentação](https://docs.google.com/document/d/1KCueLv0thUHedwnxijNfWYMITGJnGFffiVaE0KZhD6A/edit?usp=sharing)
+
 # 📚 AcervoAPI
 
 **AcervoAPI** é um projeto Java com Spring Boot que simula o funcionamento de uma biblioteca via requisições RESTful. Ele contempla tecnologias modernas como:
@@ -215,6 +218,12 @@ A rota de multas é acionada quando um empréstimo é DEVOLVIDO_COM_ATRASO.
     * `404 Not Found`: Empréstimo não encontrado com o ID fornecido, ou multa não encontrada para o empréstimo.
     * `400 Bad Request`: Multa já paga e não pode ser reprocessada.
     * `403 Forbidden`: Token sem autoridade `MEMBRO`.
+
+---
+
+## ✅ Testes
+
+Acesse a planilha com os testes unitários do projeto clicando no link: [Testes Unitários Back End](https://docs.google.com/spreadsheets/d/1NJ_BtRqlSGq7u-rh_Ddlgav6qI2X5LEHjLne4g6W4Hc/edit?usp=sharing)
 
 ---
 
